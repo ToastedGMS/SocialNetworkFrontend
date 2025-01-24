@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 import UserContext from '../Context/userContext';
+import ErrorMessage from '../Reusable/ErrorMessage';
+import FormBtn from '../Reusable/FormBtn';
 
 export default function Login() {
 	const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -52,6 +54,14 @@ export default function Login() {
 			password: formData.password,
 		});
 	};
+
+	function handleChange(e) {
+		setFormData((prev) => ({
+			...prev,
+			[e.target.name]: e.target.value,
+		}));
+	}
+
 	return (
 		<form onSubmit={handleSubmit}>
 			<div>
@@ -61,12 +71,7 @@ export default function Login() {
 					name="identification"
 					id="identification"
 					value={formData.identification}
-					onChange={(e) => {
-						setFormData((prev) => ({
-							...prev,
-							[e.target.name]: e.target.value,
-						}));
-					}}
+					onChange={handleChange}
 					required
 				/>
 			</div>
@@ -78,20 +83,13 @@ export default function Login() {
 					name="password"
 					id="password"
 					value={formData.password}
-					onChange={(e) => {
-						setFormData((prev) => ({
-							...prev,
-							[e.target.name]: e.target.value,
-						}));
-					}}
+					onChange={handleChange}
 					required
 				/>
-				{error && <p style={{ color: 'red' }}>{error}</p>}
+				{error && <ErrorMessage error={error} />}
 			</div>
 			<div>
-				<button type="submit" disabled={mutation.isLoading}>
-					{mutation.isLoading ? 'Logging in...' : 'Login'}
-				</button>{' '}
+				<FormBtn mutationLoading={mutation.isLoading} formType={'Login'} />
 			</div>
 		</form>
 	);

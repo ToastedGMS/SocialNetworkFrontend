@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import ErrorMessage from '../Reusable/ErrorMessage';
+import FormBtn from '../Reusable/FormBtn';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 export default function Signup() {
@@ -52,6 +54,13 @@ export default function Signup() {
 		});
 	};
 
+	function handleChange(e) {
+		setFormData((prev) => ({
+			...prev,
+			[e.target.name]: e.target.value,
+		}));
+	}
+
 	return (
 		<form onSubmit={handleSubmit}>
 			<div>
@@ -61,12 +70,7 @@ export default function Signup() {
 					name="username"
 					id="username"
 					value={formData.username}
-					onChange={(e) => {
-						setFormData((prev) => ({
-							...prev,
-							[e.target.name]: e.target.value,
-						}));
-					}}
+					onChange={handleChange}
 					required
 				/>
 			</div>
@@ -77,12 +81,7 @@ export default function Signup() {
 					name="email"
 					id="email"
 					value={formData.email}
-					onChange={(e) => {
-						setFormData((prev) => ({
-							...prev,
-							[e.target.name]: e.target.value,
-						}));
-					}}
+					onChange={handleChange}
 					required
 				/>
 			</div>
@@ -93,12 +92,7 @@ export default function Signup() {
 					name="password"
 					id="password"
 					value={formData.password}
-					onChange={(e) => {
-						setFormData((prev) => ({
-							...prev,
-							[e.target.name]: e.target.value,
-						}));
-					}}
+					onChange={handleChange}
 					required
 				/>
 			</div>
@@ -109,20 +103,13 @@ export default function Signup() {
 					name="confirmPassword"
 					id="confirmPassword"
 					value={formData.confirmPassword}
-					onChange={(e) => {
-						setFormData((prev) => ({
-							...prev,
-							[e.target.name]: e.target.value,
-						}));
-					}}
+					onChange={handleChange}
 					required
 				/>
-				{error && <p style={{ color: 'red' }}>{error}</p>}
+				{error && <ErrorMessage error={error} />}
 			</div>
 			<div>
-				<button type="submit" disabled={mutation.isLoading}>
-					{mutation.isLoading ? 'Signing up...' : 'Signup'}
-				</button>{' '}
+				<FormBtn mutationLoading={mutation.isLoading} formType={'Signup'} />
 			</div>
 		</form>
 	);
