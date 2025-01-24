@@ -94,6 +94,7 @@ export default function Signup() {
 					value={formData.password}
 					onChange={handleChange}
 					required
+					minLength={8}
 				/>
 			</div>
 			<div>
@@ -105,6 +106,7 @@ export default function Signup() {
 					value={formData.confirmPassword}
 					onChange={handleChange}
 					required
+					minLength={8}
 				/>
 				{error && <ErrorMessage error={error} />}
 			</div>

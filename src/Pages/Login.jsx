@@ -85,6 +85,7 @@ export default function Login() {
 					value={formData.password}
 					onChange={handleChange}
 					required
+					minLength={8}
 				/>
 				{error && <ErrorMessage error={error} />}
 			</div>
