@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import ErrorMessage from '../Reusable/ErrorMessage';
 import FormBtn from '../Reusable/FormBtn';
+import ErrorContext from '../Context/errorContext';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 export default function Signup() {
-	const [error, setError] = useState(null);
+	const { error, setError } = useContext(ErrorContext);
 	const [formData, setFormData] = useState({
 		username: '',
 		email: '',

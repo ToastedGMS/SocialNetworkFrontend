@@ -1,17 +1,24 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 import UserContext from '../Context/userContext';
 import ErrorMessage from '../Reusable/ErrorMessage';
 import FormBtn from '../Reusable/FormBtn';
+import { useNavigate } from 'react-router-dom';
+import ErrorContext from '../Context/errorContext';
 
 export default function Login() {
 	const { currentUser, setCurrentUser } = useContext(UserContext);
-	const [error, setError] = useState(null);
+	const { error, setError } = useContext(ErrorContext);
 	const [formData, setFormData] = useState({
 		identification: '',
 		password: '',
 	});
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		console.log(currentUser);
+	}, [currentUser]);
 
 	const mutation = useMutation({
 		mutationFn: async (data) => {
@@ -30,7 +37,7 @@ export default function Login() {
 			});
 			const resolvedResponse = await response.json();
 
-			setCurrentUser({
+			await setCurrentUser({
 				user: resolvedResponse.authorizedUser,
 				token: resolvedResponse.token,
 			});
@@ -40,8 +47,8 @@ export default function Login() {
 			setError(err.message);
 		},
 		onSuccess: () => {
-			alert('User logged in');
-			console.log('user', currentUser);
+			setError(null);
+			navigate('/home');
 		},
 	});
 
