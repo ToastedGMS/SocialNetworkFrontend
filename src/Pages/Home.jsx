@@ -27,11 +27,14 @@ export default function Home() {
 				headers: { 'Content-Type': 'application/json' },
 			}
 		);
+
 		if (!response.ok) {
-			const errorData = await response.json();
-			throw new Error(errorData.error || 'Error fetching posts');
+			const errorResponse = await response.json();
+			throw new Error(errorResponse.error || 'Error fetching posts');
 		}
-		return response.json();
+
+		const res = await response.json();
+		return res;
 	};
 
 	const { data, error, isLoading } = useQuery({
@@ -52,7 +55,7 @@ export default function Home() {
 	return (
 		<div>
 			{data.map((post) => (
-				<Post data={post} />
+				<Post data={post} currentUser={currentUser} />
 			))}
 		</div>
 	);
