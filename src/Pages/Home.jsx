@@ -3,6 +3,7 @@ import UserContext from '../Context/userContext';
 import { useNavigate } from 'react-router-dom';
 import ErrorContext from '../Context/errorContext';
 import { useQuery } from '@tanstack/react-query';
+import Post from '../Reusable/Post';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -51,12 +52,7 @@ export default function Home() {
 	return (
 		<div>
 			{data.map((post) => (
-				<ul key={post.id}>
-					<li>Author: {post.author.username}</li>
-					<li>{post.content}</li>
-					<li>Posted on: {post.createdAt}</li>
-					<button>Like</button>
-				</ul>
+				<Post data={post} />
 			))}
 		</div>
 	);
