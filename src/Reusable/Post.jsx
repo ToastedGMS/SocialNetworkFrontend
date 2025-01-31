@@ -1,6 +1,7 @@
 import React from 'react';
+import LikeButton from './LikeBtn';
 
-export default function Post({ data }) {
+export default function Post({ data, currentUser }) {
 	return (
 		<div style={{ border: '1px solid black' }}>
 			<div style={{ display: 'flex', alignItems: 'center' }}>
@@ -17,7 +18,7 @@ export default function Post({ data }) {
 				{data.createdAt !== data.updatedAt && <p>Edited: {data.updatedAt}</p>}
 			</div>
 			<div>
-				<button>Like</button>
+				<LikeButton postId={data.id} user={currentUser} />
 			</div>
 		</div>
 	);
