@@ -55,7 +55,7 @@ export default function Home() {
 	return (
 		<div>
 			{data.map((post) => (
-				<Post data={post} currentUser={currentUser} />
+				<Post data={post} currentUser={currentUser} key={post.id} />
 			))}
 		</div>
 	);
