@@ -1,7 +1,8 @@
 import React from 'react';
 import LikeButton from './LikeBtn';
+import CommentBtn from './CommentBtn';
 
-export default function Post({ data, currentUser }) {
+export default function Post({ data, currentUser, setPostVal }) {
 	return (
 		<div style={{ border: '1px solid black' }}>
 			<div style={{ display: 'flex', alignItems: 'center' }}>
@@ -19,6 +20,9 @@ export default function Post({ data, currentUser }) {
 			</div>
 			<div>
 				<LikeButton postId={data.id} user={currentUser} />
+			</div>
+			<div>
+				<CommentBtn postId={data.id} setPostVal={setPostVal} />
 			</div>
 		</div>
 	);
