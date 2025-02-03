@@ -1,0 +1,38 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+const serverUrl = import.meta.env.VITE_SERVER_URL;
+
+const dislikePost = async ({ postId, user }) => {
+	const response = await fetch(
+		`${serverUrl}/api/likes/remove?postID=${postId}`,
+		{
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${user.token}`,
+			},
+			body: JSON.stringify({ authorID: user.user.id }),
+		}
+	);
+	console.log(postId);
+	if (!response.ok) {
+		const res = await response.json();
+		throw new Error(res.message || 'Failed to dislike the post');
+	}
+
+	const res = await response.json();
+	return res;
+};
+
+export function useDislikePost() {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: dislikePost,
+		onSuccess: () => {
+			queryClient.invalidateQueries(['posts']);
+		},
+		onError: (error) => {
+			console.error('Error disliking post:', error.message);
+		},
+	});
+}
