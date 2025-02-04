@@ -20,10 +20,12 @@ export default function Post({ data, currentUser, setPostVal, hideComments }) {
 			</div>
 			<div>
 				<LikeButton postId={data.id} user={currentUser} dataType={'post'} />
+				<span>{data.likeCount}</span>
 			</div>
 			{!hideComments && (
 				<div>
 					<CommentBtn postId={data.id} setPostVal={setPostVal} />
+					<span>{data.commentCount}</span>
 				</div>
 			)}
 		</div>
