@@ -3,6 +3,7 @@ import UserContext from '../Context/userContext';
 import { useNavigate } from 'react-router-dom';
 import ErrorContext from '../Context/errorContext';
 import { useQuery } from '@tanstack/react-query';
+import PostContext from '../Context/postContext';
 import Post from '../Reusable/Post';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
@@ -10,6 +11,7 @@ const serverUrl = import.meta.env.VITE_SERVER_URL;
 export default function Home() {
 	const { currentUser } = useContext(UserContext);
 	const { setError } = useContext(ErrorContext);
+	const { setPostVal } = useContext(PostContext);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -55,7 +57,12 @@ export default function Home() {
 	return (
 		<div>
 			{data.map((post) => (
-				<Post data={post} currentUser={currentUser} key={post.id} />
+				<Post
+					data={post}
+					currentUser={currentUser}
+					setPostVal={setPostVal}
+					key={post.id}
+				/>
 			))}
 		</div>
 	);

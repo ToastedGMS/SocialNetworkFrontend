@@ -6,6 +6,8 @@ import Login from './Login';
 import Home from './Home';
 import UserContext from '../Context/userContext';
 import ErrorContext from '../Context/errorContext';
+import PostContext from '../Context/postContext';
+import Thread from './Thread';
 const queryClient = new QueryClient();
 
 function App() {
@@ -13,6 +15,8 @@ function App() {
 	const value = { currentUser, setCurrentUser };
 	const [error, setError] = useState(null);
 	const errorValue = { error, setError };
+	const [postVal, setPostVal] = useState(null);
+	const postValue = { postVal, setPostVal };
 
 	return (
 		<Router>
@@ -33,13 +37,16 @@ function App() {
 
 				<UserContext.Provider value={value}>
 					<ErrorContext.Provider value={errorValue}>
-						<QueryClientProvider client={queryClient}>
-							<Routes>
-								<Route path="/login" element={<Login />}></Route>
-								<Route path="/signup" element={<Signup />}></Route>
-								<Route path="/home" element={<Home />}></Route>
-							</Routes>
-						</QueryClientProvider>
+						<PostContext.Provider value={postValue}>
+							<QueryClientProvider client={queryClient}>
+								<Routes>
+									<Route path="/login" element={<Login />}></Route>
+									<Route path="/signup" element={<Signup />}></Route>
+									<Route path="/home" element={<Home />}></Route>
+									<Route path="/post/:id" element={<Thread />}></Route>
+								</Routes>
+							</QueryClientProvider>
+						</PostContext.Provider>
 					</ErrorContext.Provider>
 				</UserContext.Provider>
 			</div>

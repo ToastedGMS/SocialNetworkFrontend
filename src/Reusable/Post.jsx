@@ -2,7 +2,7 @@ import React from 'react';
 import LikeButton from './LikeBtn';
 import CommentBtn from './CommentBtn';
 
-export default function Post({ data, currentUser, setPostVal }) {
+export default function Post({ data, currentUser, setPostVal, hideComments }) {
 	return (
 		<div style={{ border: '1px solid black' }}>
 			<div style={{ display: 'flex', alignItems: 'center' }}>
@@ -19,11 +19,13 @@ export default function Post({ data, currentUser, setPostVal }) {
 				{data.createdAt !== data.updatedAt && <p>Edited: {data.updatedAt}</p>}
 			</div>
 			<div>
-				<LikeButton postId={data.id} user={currentUser} />
+				<LikeButton postId={data.id} user={currentUser} dataType={'post'} />
 			</div>
-			<div>
-				<CommentBtn postId={data.id} setPostVal={setPostVal} />
-			</div>
+			{!hideComments && (
+				<div>
+					<CommentBtn postId={data.id} setPostVal={setPostVal} />
+				</div>
+			)}
 		</div>
 	);
 }
