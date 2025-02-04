@@ -1,19 +1,22 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
-const likePost = async ({ postId, user }) => {
-	const response = await fetch(`${serverUrl}/api/likes/new?postID=${postId}`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${user.token}`,
-		},
-		body: JSON.stringify({ authorID: user.user.id }),
-	});
+const likePost = async ({ postId, user, dataType }) => {
+	const response = await fetch(
+		`${serverUrl}/api/likes/new?${dataType}ID=${postId}`,
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${user.token}`,
+			},
+			body: JSON.stringify({ authorID: user.user.id }),
+		}
+	);
 	console.log(postId);
 	if (!response.ok) {
 		const res = await response.json();
-		throw new Error(res.message || 'Failed to like the post');
+		throw new Error(res.message || `Failed to like the ${dataType}`);
 	}
 
 	const res = await response.json();

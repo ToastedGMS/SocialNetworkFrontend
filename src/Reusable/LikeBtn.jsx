@@ -3,7 +3,7 @@ import { useLikePost } from '../Hooks/useLikePost';
 import { useDislikePost } from '../Hooks/useDislikePost';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
-const LikeButton = ({ postId, user }) => {
+const LikeButton = ({ postId, user, dataType }) => {
 	const { mutate: likePost } = useLikePost();
 	const { mutate: dislikePost } = useDislikePost();
 	const [isLiked, setIsLiked] = useState(false);
@@ -11,7 +11,7 @@ const LikeButton = ({ postId, user }) => {
 	const likeStatus = async () => {
 		try {
 			const response = await fetch(
-				`${serverUrl}/api/likes/post?postID=${postId}`,
+				`${serverUrl}/api/likes/${dataType}?${dataType}ID=${postId}`,
 				{
 					method: 'GET',
 					headers: { 'Content-Type': 'application/json' },
@@ -20,7 +20,9 @@ const LikeButton = ({ postId, user }) => {
 
 			if (!response.ok) {
 				const errorResponse = await response.json();
-				throw new Error(errorResponse.error || 'Error fetching likes');
+				throw new Error(
+					errorResponse.error || `Error fetching likes for ${dataType}`
+				);
 			}
 
 			const res = await response.json();
@@ -36,8 +38,11 @@ const LikeButton = ({ postId, user }) => {
 	return (
 		<button
 			onClick={() => {
-				isLiked ? dislikePost({ postId, user }) : likePost({ postId, user });
+				isLiked
+					? dislikePost({ postId, user, dataType })
+					: likePost({ postId, user, dataType });
 				setIsLiked(isLiked ? false : true);
+				console.log('id', postId);
 			}}
 		>
 			{isLiked ? 'Dislike' : 'Like'}

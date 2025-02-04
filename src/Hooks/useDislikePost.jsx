@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
-const dislikePost = async ({ postId, user }) => {
+const dislikePost = async ({ postId, user, dataType }) => {
 	const response = await fetch(
-		`${serverUrl}/api/likes/remove?postID=${postId}`,
+		`${serverUrl}/api/likes/remove?${dataType}ID=${postId}`,
 		{
 			method: 'DELETE',
 			headers: {
@@ -16,7 +16,7 @@ const dislikePost = async ({ postId, user }) => {
 	console.log(postId);
 	if (!response.ok) {
 		const res = await response.json();
-		throw new Error(res.message || 'Failed to dislike the post');
+		throw new Error(res.message || `Failed to dislike the ${dataType}`);
 	}
 
 	const res = await response.json();
