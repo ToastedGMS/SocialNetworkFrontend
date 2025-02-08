@@ -6,7 +6,7 @@ import ErrorContext from '../Context/errorContext';
 import Post from '../Reusable/Post';
 import Comment from '../Reusable/Comment';
 import { useQuery } from '@tanstack/react-query';
-import NewComment from '../Reusable/NewComment';
+import NewContent from '../Reusable/NewContent';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 export default function Thread() {
@@ -89,7 +89,11 @@ export default function Thread() {
 				{error ? <p>No comments yet...</p> : null}
 			</div>
 			<div>
-				<NewComment currentUser={currentUser} postID={postVal} />
+				<NewContent
+					currentUser={currentUser}
+					postID={postVal}
+					dataType={'comment'}
+				/>
 			</div>
 		</>
 	);
