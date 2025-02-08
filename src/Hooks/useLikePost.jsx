@@ -13,7 +13,6 @@ const likePost = async ({ postId, user, dataType }) => {
 			body: JSON.stringify({ authorID: user.user.id }),
 		}
 	);
-	console.log(postId);
 	if (!response.ok) {
 		const res = await response.json();
 		throw new Error(res.message || `Failed to like the ${dataType}`);
