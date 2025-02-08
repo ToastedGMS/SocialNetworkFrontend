@@ -1,16 +1,30 @@
+import { useDeleteComment } from '../Hooks/useDeleteComment';
 import { useDeletePost } from '../Hooks/useDeletePost';
 
-const DeleteBtn = ({ postId, user }) => {
+const DeleteBtn = ({ id, user, dataType, postId }) => {
 	const { mutate: deletePost } = useDeletePost();
+	const { mutate: deleteComment } = useDeleteComment(postId);
 
 	return (
-		<button
-			onClick={() => {
-				deletePost({ postId, user });
-			}}
-		>
-			Delete
-		</button>
+		<div>
+			{dataType === 'post' ? (
+				<button
+					onClick={() => {
+						deletePost({ postId: id, user });
+					}}
+				>
+					Delete
+				</button>
+			) : (
+				<button
+					onClick={() => {
+						deleteComment({ commentID: id, user });
+					}}
+				>
+					Delete
+				</button>
+			)}
+		</div>
 	);
 };
 

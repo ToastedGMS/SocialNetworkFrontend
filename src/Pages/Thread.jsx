@@ -56,7 +56,7 @@ export default function Thread() {
 		const res = await response.json();
 		return res;
 	};
-	const { data, error, isLoading } = useQuery({
+	const { data, isLoading } = useQuery({
 		queryKey: ['comments', postVal],
 		queryFn: fetchComments,
 	});
@@ -75,18 +75,20 @@ export default function Thread() {
 				)}
 			</div>
 			<div>
-				{data &&
-					data.map((comment) => {
-						return (
-							<Comment
-								data={comment}
-								currentUser={currentUser}
-								key={comment.id}
-							/>
-						);
-					})}
-				{isLoading ? <p> Loading comments...</p> : null}
-				{error ? <p>No comments yet...</p> : null}
+				{data?.length > 0 ? (
+					data.map((comment) => (
+						<Comment
+							data={comment}
+							currentUser={currentUser}
+							key={comment.id}
+							postID={postVal}
+						/>
+					))
+				) : isLoading ? (
+					<p>Loading comments...</p>
+				) : (
+					<p>No comments yet...</p>
+				)}
 			</div>
 			<div>
 				<NewContent

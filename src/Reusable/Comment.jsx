@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LikeButton from './LikeBtn';
+import DeleteBtn from './DeleteBtn';
+import UpdateContent from './UpdateContent';
 
-export default function Comment({ data, currentUser }) {
+export default function Comment({ data, currentUser, postID }) {
+	const [updateStatus, setUpdateStatus] = useState(false);
+
 	return (
 		<div style={{ border: '1px solid black' }}>
 			<div style={{ display: 'flex', alignItems: 'center' }}>
@@ -19,12 +23,32 @@ export default function Comment({ data, currentUser }) {
 					<p style={{ fontSize: '.9em' }}>Edited: {data.updatedAt}</p>
 				)}
 			</div>
+			{updateStatus && (
+				<UpdateContent
+					data={data}
+					setUpdateStatus={setUpdateStatus}
+					user={currentUser}
+					dataType={'comment'}
+				/>
+			)}
 			<div>
 				<LikeButton postId={data.id} user={currentUser} dataType={'comment'} />
 				{
 					//although it says POSTID, it is receiving the COMMENTID
 				}
 			</div>
+			{data.author.id === currentUser.user.id && (
+				<div>
+					{' '}
+					<DeleteBtn
+						id={data.id}
+						user={currentUser}
+						dataType={'comment'}
+						postId={postID}
+					/>
+					<button onClick={() => setUpdateStatus(true)}>Edit</button>
+				</div>
+			)}
 		</div>
 	);
 }
