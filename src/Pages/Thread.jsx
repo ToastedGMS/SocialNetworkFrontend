@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import ErrorContext from '../Context/errorContext';
 import Post from '../Reusable/Post';
 import Comment from '../Reusable/Comment';
+import { useQuery } from '@tanstack/react-query';
+import NewComment from '../Reusable/NewComment';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 export default function Thread() {
@@ -21,7 +23,6 @@ export default function Thread() {
 
 	const { postVal } = useContext(PostContext);
 	const [postData, setPostData] = useState(null);
-	const [commentData, setCommentData] = useState(null);
 
 	const fetchPost = async () => {
 		const response = await fetch(`${serverUrl}/api/posts/read?id=${postVal}`, {
@@ -53,13 +54,15 @@ export default function Thread() {
 		}
 
 		const res = await response.json();
-		setCommentData(res);
 		return res;
 	};
+	const { data, error, isLoading } = useQuery({
+		queryKey: ['comments', postVal],
+		queryFn: fetchComments,
+	});
 
 	useEffect(() => {
 		fetchPost();
-		fetchComments();
 	}, [postVal]);
 
 	return (
@@ -72,8 +75,8 @@ export default function Thread() {
 				)}
 			</div>
 			<div>
-				{commentData ? (
-					commentData.map((comment) => {
+				{data &&
+					data.map((comment) => {
 						return (
 							<Comment
 								data={comment}
@@ -81,10 +84,12 @@ export default function Thread() {
 								key={comment.id}
 							/>
 						);
-					})
-				) : (
-					<p>No comments yet...</p>
-				)}
+					})}
+				{isLoading ? <p> Loading comments...</p> : null}
+				{error ? <p>No comments yet...</p> : null}
+			</div>
+			<div>
+				<NewComment currentUser={currentUser} postID={postVal} />
 			</div>
 		</>
 	);

@@ -45,10 +45,6 @@ export default function Home() {
 		queryFn: generateFeed,
 	});
 
-	useEffect(() => {
-		console.log('data', data);
-	}, [data]);
-
 	if (isLoading) return <p>Loading...</p>;
 	if (error) {
 		setError(error.message);
