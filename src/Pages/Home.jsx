@@ -5,6 +5,7 @@ import ErrorContext from '../Context/errorContext';
 import { useQuery } from '@tanstack/react-query';
 import PostContext from '../Context/postContext';
 import Post from '../Reusable/Post';
+import NewPost from '../Reusable/NewPost';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -55,15 +56,18 @@ export default function Home() {
 	}
 
 	return (
-		<div>
-			{data.map((post) => (
-				<Post
-					data={post}
-					currentUser={currentUser}
-					setPostVal={setPostVal}
-					key={post.id}
-				/>
-			))}
-		</div>
+		<>
+			<NewPost currentUser={currentUser} />
+			<div>
+				{data.map((post) => (
+					<Post
+						data={post}
+						currentUser={currentUser}
+						setPostVal={setPostVal}
+						key={post.id}
+					/>
+				))}
+			</div>
+		</>
 	);
 }
