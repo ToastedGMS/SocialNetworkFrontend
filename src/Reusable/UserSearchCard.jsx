@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
-export default function UserSearchCard({ user, currentUser, setProfile }) {
+export default function UserSearchCard({ user, currentUser }) {
 	const [friendStatus, setFriendStatus] = useState(null);
 
 	const navigate = useNavigate();
@@ -58,35 +58,22 @@ export default function UserSearchCard({ user, currentUser, setProfile }) {
 	}, [user, currentUser]);
 
 	return (
-		<div
-			onClick={() => {
-				setProfile(user);
-				navigate(`/user/${user.username}`);
-			}}
-		>
-			<div
-				style={{
-					border: '1px solid black',
-					padding: '10px',
-					borderRadius: '5px',
-				}}
-			>
-				<div style={{ display: 'flex', alignItems: 'center' }}>
-					<img
-						src={user.profilePic}
-						alt="User profile picture"
-						style={{ width: '2em', borderRadius: '50%' }}
-					/>
-					<p style={{ marginLeft: '10px' }}>{user.username}</p>
-				</div>
-				{/* <div>
+		<>
+			<div style={{ display: 'flex', alignItems: 'center' }}>
+				<img
+					src={user.profilePic}
+					alt="User profile picture"
+					style={{ width: '2em', borderRadius: '50%' }}
+				/>
+				<p style={{ marginLeft: '10px' }}>{user.username}</p>
+			</div>
+			{/* <div>
 					{user.id === currentUser.user.id ? null : friendStatus === null ? (
 						<button>Send Friend Request</button>
 					) : (
 						<p>Friendship Status: {friendStatus}</p>
 					)}
 				</div> */}
-			</div>
-		</div>
+		</>
 	);
 }
