@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import ErrorContext from '../Context/errorContext';
 import { useQuery } from '@tanstack/react-query';
 import PostContext from '../Context/postContext';
+import ProfileContext from '../Context/profileContext';
 import Post from '../Reusable/Post';
 import NewContent from '../Reusable/NewContent';
 
@@ -13,6 +14,8 @@ export default function Home() {
 	const { currentUser } = useContext(UserContext);
 	const { setError } = useContext(ErrorContext);
 	const { setPostVal } = useContext(PostContext);
+	const { setProfile } = useContext(ProfileContext);
+
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -57,10 +60,12 @@ export default function Home() {
 			<div>
 				{data.map((post) => (
 					<Post
+						setProfile={setProfile}
 						data={post}
 						currentUser={currentUser}
 						setPostVal={setPostVal}
 						key={post.id}
+						profileClick={true}
 					/>
 				))}
 			</div>

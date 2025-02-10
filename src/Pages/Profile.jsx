@@ -74,6 +74,7 @@ export default function Profile() {
 								setPostVal={setPostVal}
 								currentUser={currentUser}
 								key={post.id}
+								profileClick={false}
 							/>
 						))
 					) : (

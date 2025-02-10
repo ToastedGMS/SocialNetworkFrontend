@@ -7,11 +7,15 @@ import Post from '../Reusable/Post';
 import Comment from '../Reusable/Comment';
 import { useQuery } from '@tanstack/react-query';
 import NewContent from '../Reusable/NewContent';
+import ProfileContext from '../Context/profileContext';
+
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 export default function Thread() {
 	const { currentUser } = useContext(UserContext);
 	const { setError } = useContext(ErrorContext);
+	const { setProfile } = useContext(ProfileContext);
+
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -69,7 +73,13 @@ export default function Thread() {
 		<>
 			<div>
 				{postData ? (
-					<Post data={postData} currentUser={currentUser} hideComments={true} />
+					<Post
+						data={postData}
+						currentUser={currentUser}
+						hideComments={true}
+						setProfile={setProfile}
+						profileClick={true}
+					/>
 				) : (
 					<p>Loading...</p>
 				)}
@@ -82,6 +92,7 @@ export default function Thread() {
 							currentUser={currentUser}
 							key={comment.id}
 							postID={postVal}
+							setProfile={setProfile}
 						/>
 					))
 				) : isLoading ? (

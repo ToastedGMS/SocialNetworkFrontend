@@ -2,13 +2,21 @@ import React, { useState } from 'react';
 import LikeButton from './LikeBtn';
 import DeleteBtn from './DeleteBtn';
 import UpdateContent from './UpdateContent';
+import { useNavigate } from 'react-router-dom';
 
-export default function Comment({ data, currentUser, postID }) {
+export default function Comment({ data, currentUser, postID, setProfile }) {
 	const [updateStatus, setUpdateStatus] = useState(false);
+	const navigate = useNavigate();
 
 	return (
 		<div style={{ border: '1px solid black' }}>
-			<div style={{ display: 'flex', alignItems: 'center' }}>
+			<div
+				style={{ display: 'flex', alignItems: 'center' }}
+				onClick={() => {
+					setProfile(data.author);
+					navigate(`/user/${data.author.username}`);
+				}}
+			>
 				<img
 					src={data.author.profilePic}
 					alt="User profile picture"
