@@ -49,8 +49,8 @@ export default function Search({ currentUser, setProfile }) {
 	return (
 		<div>
 			<textarea
-				name="input"
-				id="input"
+				name="search"
+				id="search"
 				cols="80"
 				rows="1"
 				placeholder="Search for usernames..."
