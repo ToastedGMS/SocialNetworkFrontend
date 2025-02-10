@@ -76,9 +76,9 @@ export default function Search({ currentUser, setProfile }) {
 										navigate(`/user/${user.username}`);
 										setSearch('');
 									}}
+									key={user.id}
 								>
 									<UserSearchCard
-										key={user.id}
 										user={user}
 										currentUser={currentUser}
 										setProfile={setProfile}
