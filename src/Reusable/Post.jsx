@@ -32,19 +32,19 @@ export default function Post({ data, currentUser, setPostVal, hideComments }) {
 			)}
 			<div>
 				<LikeButton postId={data.id} user={currentUser} dataType={'post'} />
-				<span>{data.likeCount}</span>
+				{!hideComments && <span>{data.likeCount}</span>}
 			</div>
 			{!hideComments && (
 				<div>
 					<CommentBtn postId={data.id} setPostVal={setPostVal} />
 					<span>{data.commentCount}</span>
-				</div>
-			)}
-			{data.author.id === currentUser.user.id && (
-				<div>
-					{' '}
-					<DeleteBtn id={data.id} user={currentUser} dataType={'post'} />
-					<button onClick={() => setUpdateStatus(true)}>Edit</button>
+
+					{data.author.id === currentUser.user.id && (
+						<div>
+							<DeleteBtn id={data.id} user={currentUser} dataType={'post'} />
+							<button onClick={() => setUpdateStatus(true)}>Edit</button>
+						</div>
+					)}
 				</div>
 			)}
 		</div>
