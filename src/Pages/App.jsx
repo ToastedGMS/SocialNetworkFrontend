@@ -7,8 +7,10 @@ import Home from './Home';
 import UserContext from '../Context/userContext';
 import ErrorContext from '../Context/errorContext';
 import PostContext from '../Context/postContext';
+import ProfileContext from '../Context/profileContext';
 import Thread from './Thread';
 import Search from '../Reusable/Search';
+import Profile from './Profile';
 const queryClient = new QueryClient();
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
 	const errorValue = { error, setError };
 	const [postVal, setPostVal] = useState(null);
 	const postValue = { postVal, setPostVal };
+	const [profile, setProfile] = useState(null);
+	const profileValue = { profile, setProfile };
 
 	return (
 		<Router>
@@ -33,20 +37,30 @@ function App() {
 						<li>
 							<Link to={'/home'}>Home</Link>
 						</li>
+						{currentUser && (
+							<li onClick={() => setProfile(currentUser.user)}>
+								<Link to={`/user/${currentUser.user.username}`}>
+									My Profile
+								</Link>
+							</li>
+						)}
 					</ul>
-					<Search currentUser={currentUser} />
+					<Search currentUser={currentUser} setProfile={setProfile} />
 				</nav>
 
 				<UserContext.Provider value={value}>
 					<ErrorContext.Provider value={errorValue}>
 						<PostContext.Provider value={postValue}>
 							<QueryClientProvider client={queryClient}>
-								<Routes>
-									<Route path="/login" element={<Login />}></Route>
-									<Route path="/signup" element={<Signup />}></Route>
-									<Route path="/home" element={<Home />}></Route>
-									<Route path="/post/:id" element={<Thread />}></Route>
-								</Routes>
+								<ProfileContext.Provider value={profileValue}>
+									<Routes>
+										<Route path="/login" element={<Login />}></Route>
+										<Route path="/signup" element={<Signup />}></Route>
+										<Route path="/home" element={<Home />}></Route>
+										<Route path="/post/:id" element={<Thread />}></Route>
+										<Route path="/user/:username" element={<Profile />}></Route>
+									</Routes>
+								</ProfileContext.Provider>
 							</QueryClientProvider>
 						</PostContext.Provider>
 					</ErrorContext.Provider>
