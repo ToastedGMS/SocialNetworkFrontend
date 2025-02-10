@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import UserSearchCard from './UserSearchCard';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
-export default function Search({ currentUser }) {
+export default function Search({ currentUser, setProfile }) {
 	const [search, setSearch] = useState('');
 	const [results, setResults] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -67,6 +67,7 @@ export default function Search({ currentUser }) {
 									key={user.id}
 									user={user}
 									currentUser={currentUser}
+									setProfile={setProfile}
 								/>
 							))}
 						</ul>

@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
-export default function UserSearchCard({ user, currentUser }) {
+export default function UserSearchCard({ user, currentUser, setProfile }) {
 	const [friendStatus, setFriendStatus] = useState(null);
+
+	const navigate = useNavigate();
 
 	async function friendshipStatus() {
 		try {
@@ -55,7 +58,12 @@ export default function UserSearchCard({ user, currentUser }) {
 	}, [user, currentUser]);
 
 	return (
-		<div>
+		<div
+			onClick={() => {
+				setProfile(user);
+				navigate(`/user/${user.username}`);
+			}}
+		>
 			<div
 				style={{
 					border: '1px solid black',
