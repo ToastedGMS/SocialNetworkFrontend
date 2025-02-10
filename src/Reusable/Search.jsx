@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import UserSearchCard from './UserSearchCard';
+import { useNavigate } from 'react-router-dom';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 export default function Search({ currentUser, setProfile }) {
 	const [search, setSearch] = useState('');
 	const [results, setResults] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
 
 	async function searchUsers() {
 		try {
@@ -63,12 +65,25 @@ export default function Search({ currentUser, setProfile }) {
 					{results.length > 0 ? (
 						<ul>
 							{results.map((user) => (
-								<UserSearchCard
-									key={user.id}
-									user={user}
-									currentUser={currentUser}
-									setProfile={setProfile}
-								/>
+								<div
+									style={{
+										border: '1px solid black',
+										padding: '10px',
+										borderRadius: '5px',
+									}}
+									onClick={() => {
+										setProfile(user);
+										navigate(`/user/${user.username}`);
+										setSearch('');
+									}}
+								>
+									<UserSearchCard
+										key={user.id}
+										user={user}
+										currentUser={currentUser}
+										setProfile={setProfile}
+									/>
+								</div>
 							))}
 						</ul>
 					) : (
