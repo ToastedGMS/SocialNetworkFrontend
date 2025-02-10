@@ -8,6 +8,7 @@ import UserContext from '../Context/userContext';
 import ErrorContext from '../Context/errorContext';
 import PostContext from '../Context/postContext';
 import Thread from './Thread';
+import Search from '../Reusable/Search';
 const queryClient = new QueryClient();
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
 							<Link to={'/home'}>Home</Link>
 						</li>
 					</ul>
+					<Search currentUser={currentUser} />
 				</nav>
 
 				<UserContext.Provider value={value}>
