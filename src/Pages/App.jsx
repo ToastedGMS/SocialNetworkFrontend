@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import {
+	BrowserRouter as Router,
+	Route,
+	Link,
+	Routes,
+	useNavigate,
+} from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Signup from './Signup';
 import Login from './Login';
@@ -13,6 +19,7 @@ import Search from '../Reusable/Search';
 import Profile from './Profile';
 import Friendships from './Friendships';
 import UpdateProfile from './UpdateProfile';
+import Logout from './Logout';
 const queryClient = new QueryClient();
 
 function App() {
@@ -38,6 +45,9 @@ function App() {
 						</li>
 						{currentUser && (
 							<>
+								<li>
+									<Link to={'/logout'}>Logout</Link>
+								</li>
 								<li>
 									<Link to={'/home'}>Home</Link>
 								</li>
@@ -74,6 +84,7 @@ function App() {
 											path="/user/update"
 											element={<UpdateProfile />}
 										></Route>
+										<Route path="/logout" element={<Logout />}></Route>
 									</Routes>
 								</ProfileContext.Provider>
 							</QueryClientProvider>
