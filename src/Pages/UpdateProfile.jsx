@@ -14,22 +14,42 @@ export default function UpdateProfile() {
 	const [profilePicVal, setProfilePicVal] = useState(
 		currentUser.user.profilePic
 	);
+	const [isValidPic, setIsValidPic] = useState(true); // Track image validity
 
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (currentUser === null) {
+		if (!currentUser) {
 			setError('Please login first.');
 			navigate('/login');
 		}
 	}, [currentUser, navigate, setError]);
+
+	// Function to check if the image URL is valid
+	const isValidImage = (url) => {
+		return new Promise((resolve) => {
+			const img = new Image();
+			img.src = url;
+			img.onload = () => resolve(true);
+			img.onerror = () => resolve(false);
+		});
+	};
+
+	// Handle image validation when URL changes
+	useEffect(() => {
+		if (profilePicVal) {
+			isValidImage(profilePicVal).then(setIsValidPic);
+		}
+	}, [profilePicVal]);
+
 	return (
 		<>
 			<div style={{ border: '1px solid black' }}>
-				<img
-					src={profilePicVal}
-					alt={`${currentUser.user.username}'s profile picture`}
-				/>
+				{isValidPic ? (
+					<img src={profilePicVal} alt={`${usernameVal}'s profile picture`} />
+				) : (
+					<p>Invalid image URL</p>
+				)}
 				<p>{usernameVal}</p>
 				<p>{bioVal}</p>
 			</div>
@@ -43,6 +63,7 @@ export default function UpdateProfile() {
 					value={usernameVal}
 					onChange={(e) => setUsernameVal(e.target.value)}
 				/>
+
 				<label htmlFor="bio">Bio: </label>
 				<input
 					type="text"
@@ -51,7 +72,8 @@ export default function UpdateProfile() {
 					value={bioVal}
 					onChange={(e) => setBioVal(e.target.value)}
 				/>
-				<label htmlFor="profilePic">Bio: </label>
+
+				<label htmlFor="profilePic">Profile Picture URL: </label>
 				<input
 					type="text"
 					name="profilePic"
@@ -59,15 +81,19 @@ export default function UpdateProfile() {
 					value={profilePicVal}
 					onChange={(e) => setProfilePicVal(e.target.value)}
 				/>
-				<UpdateProfileBtn
-					currentUser={currentUser}
-					content={{
-						username: usernameVal,
-						email: currentUser.user.email,
-						bio: bioVal,
-						profilePic: profilePicVal,
-					}}
-				/>
+				{!isValidPic && <p style={{ color: 'red' }}>Invalid image URL</p>}
+
+				{isValidPic && (
+					<UpdateProfileBtn
+						currentUser={currentUser}
+						content={{
+							username: usernameVal,
+							email: currentUser.user.email,
+							bio: bioVal,
+							profilePic: isValidPic ? profilePicVal : '',
+						}}
+					/>
+				)}
 			</form>
 		</>
 	);
