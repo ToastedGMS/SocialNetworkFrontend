@@ -64,16 +64,20 @@ export default function Home() {
 		<>
 			<NewContent currentUser={currentUser} postID={null} dataType={'post'} />
 			<div>
-				{data.map((post) => (
-					<Post
-						setProfile={setProfile}
-						data={post}
-						currentUser={currentUser}
-						setPostVal={setPostVal}
-						key={post.id}
-						profileClick={true}
-					/>
-				))}
+				{data && data.length !== 0 ? (
+					data.map((post) => (
+						<Post
+							setProfile={setProfile}
+							data={post}
+							currentUser={currentUser}
+							setPostVal={setPostVal}
+							key={post.id}
+							profileClick={true}
+						/>
+					))
+				) : (
+					<p>Add some friends to start seeing posts!</p>
+				)}
 			</div>
 		</>
 	);
