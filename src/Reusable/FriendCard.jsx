@@ -2,9 +2,6 @@ import { useEffect } from 'react';
 import AcceptFriendBtn from './AcceptFriendBtn';
 
 export default function FriendCard({ currentUser, friendship, status }) {
-	useEffect(() => {
-		console.log(friendship);
-	}, [friendship]);
 	return (
 		<>
 			{currentUser.user.id === friendship.senderId && (

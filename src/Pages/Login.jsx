@@ -16,10 +16,6 @@ export default function Login() {
 	});
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		console.log(currentUser);
-	}, [currentUser]);
-
 	const mutation = useMutation({
 		mutationFn: async (data) => {
 			const response = await fetch(`${serverUrl}/api/users/login`, {

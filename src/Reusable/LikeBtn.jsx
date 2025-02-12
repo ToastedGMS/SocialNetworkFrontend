@@ -42,7 +42,6 @@ const LikeButton = ({ postId, user, dataType }) => {
 					? dislikePost({ postId, user, dataType })
 					: likePost({ postId, user, dataType });
 				setIsLiked(isLiked ? false : true);
-				console.log('id', postId);
 			}}
 		>
 			{isLiked ? 'Dislike' : 'Like'}

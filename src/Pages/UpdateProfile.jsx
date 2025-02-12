@@ -25,9 +25,6 @@ export default function UpdateProfile() {
 	}, [currentUser, navigate, setError]);
 	return (
 		<>
-			<button onClick={() => console.log(currentUser.user)}>
-				Current User
-			</button>
 			<div style={{ border: '1px solid black' }}>
 				<img
 					src={profilePicVal}
