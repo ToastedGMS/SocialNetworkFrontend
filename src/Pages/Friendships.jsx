@@ -2,8 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import UserContext from '../Context/userContext';
 import { useNavigate } from 'react-router-dom';
 import ErrorContext from '../Context/errorContext';
-import PostContext from '../Context/postContext';
-import ProfileContext from '../Context/profileContext';
 import { useQuery } from '@tanstack/react-query';
 import FriendCard from '../Reusable/FriendCard';
 
@@ -12,7 +10,6 @@ const serverUrl = import.meta.env.VITE_SERVER_URL;
 export default function Friendships() {
 	const { currentUser } = useContext(UserContext);
 	const { setError } = useContext(ErrorContext);
-	const { setProfile } = useContext(ProfileContext);
 
 	const navigate = useNavigate();
 
@@ -57,24 +54,32 @@ export default function Friendships() {
 			<div>
 				<div>
 					<p>Pending Friendships</p>
-					{data.pendingFriendships.map((friendship) => (
-						<FriendCard
-							key={friendship.id}
-							currentUser={currentUser}
-							friendship={friendship}
-							status={'pending'}
-						/>
-					))}
+					{data.pendingFriendships && data.pendingFriendships.length !== 0 ? (
+						data.pendingFriendships.map((friendship) => (
+							<FriendCard
+								key={friendship.id}
+								currentUser={currentUser}
+								friendship={friendship}
+								status={'pending'}
+							/>
+						))
+					) : (
+						<p>No pending friend requests.</p>
+					)}
 				</div>
 				<div>
 					<p>Accepted Friendships</p>
-					{data.acceptedFriendships.map((friendship) => (
-						<FriendCard
-							key={friendship.id}
-							currentUser={currentUser}
-							friendship={friendship}
-						/>
-					))}
+					{data.acceptedFriendships && data.acceptedFriendships.length !== 0 ? (
+						data.acceptedFriendships.map((friendship) => (
+							<FriendCard
+								key={friendship.id}
+								currentUser={currentUser}
+								friendship={friendship}
+							/>
+						))
+					) : (
+						<p>No accepted friend requests.</p>
+					)}
 				</div>
 			</div>
 		</>
