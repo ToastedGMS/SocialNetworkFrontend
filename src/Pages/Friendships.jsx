@@ -2,18 +2,16 @@ import React, { useContext, useEffect } from 'react';
 import UserContext from '../Context/userContext';
 import { useNavigate } from 'react-router-dom';
 import ErrorContext from '../Context/errorContext';
-import { useQuery } from '@tanstack/react-query';
 import PostContext from '../Context/postContext';
 import ProfileContext from '../Context/profileContext';
-import Post from '../Reusable/Post';
-import NewContent from '../Reusable/NewContent';
+import { useQuery } from '@tanstack/react-query';
+import FriendCard from '../Reusable/FriendCard';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
-export default function Home() {
+export default function Friendships() {
 	const { currentUser } = useContext(UserContext);
 	const { setError } = useContext(ErrorContext);
-	const { setPostVal } = useContext(PostContext);
 	const { setProfile } = useContext(ProfileContext);
 
 	const navigate = useNavigate();
@@ -25,9 +23,9 @@ export default function Home() {
 		}
 	}, [currentUser, setError, navigate]);
 
-	const generateFeed = async () => {
+	async function getFriends() {
 		const response = await fetch(
-			`${serverUrl}/api/posts/feed/${currentUser.user.id}`,
+			`${serverUrl}/api/friendships/all/${currentUser.user.id}`,
 			{
 				method: 'GET',
 				headers: { 'Content-Type': 'application/json' },
@@ -36,44 +34,48 @@ export default function Home() {
 
 		if (!response.ok) {
 			const errorResponse = await response.json();
-			throw new Error(errorResponse.error || 'Error fetching posts');
+			throw new Error(errorResponse.error || 'Error fetching friends');
 		}
 
 		const res = await response.json();
 		return res;
-	};
+	}
 
 	const { data, error, isLoading } = useQuery({
-		queryKey: ['posts'],
-		queryFn: generateFeed,
+		queryKey: ['friends'],
+		queryFn: getFriends,
 	});
 
 	if (isLoading) return <p>Loading...</p>;
 	if (error) {
 		setError(error.message);
-		return (
-			<>
-				<NewContent currentUser={currentUser} postID={null} dataType={'post'} />
-
-				<p>Error: {error.message}</p>
-			</>
-		);
+		return <p>Error: {error.message}</p>;
 	}
 
 	return (
 		<>
-			<NewContent currentUser={currentUser} postID={null} dataType={'post'} />
 			<div>
-				{data.map((post) => (
-					<Post
-						setProfile={setProfile}
-						data={post}
-						currentUser={currentUser}
-						setPostVal={setPostVal}
-						key={post.id}
-						profileClick={true}
-					/>
-				))}
+				<div>
+					<p>Pending Friendships</p>
+					{data.pendingFriendships.map((friendship) => (
+						<FriendCard
+							key={friendship.id}
+							currentUser={currentUser}
+							friendship={friendship}
+							status={'pending'}
+						/>
+					))}
+				</div>
+				<div>
+					<p>Accepted Friendships</p>
+					{data.acceptedFriendships.map((friendship) => (
+						<FriendCard
+							key={friendship.id}
+							currentUser={currentUser}
+							friendship={friendship}
+						/>
+					))}
+				</div>
 			</div>
 		</>
 	);

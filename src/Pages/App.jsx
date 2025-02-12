@@ -11,6 +11,7 @@ import ProfileContext from '../Context/profileContext';
 import Thread from './Thread';
 import Search from '../Reusable/Search';
 import Profile from './Profile';
+import Friendships from './Friendships';
 const queryClient = new QueryClient();
 
 function App() {
@@ -34,18 +35,23 @@ function App() {
 						<li>
 							<Link to={'/signup'}>Signup</Link>
 						</li>
-						<li>
-							<Link to={'/home'}>Home</Link>
-						</li>
 						{currentUser && (
-							<li onClick={() => setProfile(currentUser.user)}>
-								<Link to={`/user/${currentUser.user.username}`}>
-									My Profile
-								</Link>
-							</li>
+							<>
+								<li>
+									<Link to={'/home'}>Home</Link>
+								</li>
+								<li onClick={() => setProfile(currentUser.user)}>
+									<Link to={`/user/${currentUser.user.username}`}>
+										My Profile
+									</Link>
+								</li>
+								<li>
+									<Link to={'/friendships'}>Friendships</Link>
+								</li>
+								<Search currentUser={currentUser} setProfile={setProfile} />
+							</>
 						)}
 					</ul>
-					<Search currentUser={currentUser} setProfile={setProfile} />
 				</nav>
 
 				<UserContext.Provider value={value}>
@@ -59,6 +65,10 @@ function App() {
 										<Route path="/home" element={<Home />}></Route>
 										<Route path="/post/:id" element={<Thread />}></Route>
 										<Route path="/user/:username" element={<Profile />}></Route>
+										<Route
+											path="/friendships"
+											element={<Friendships />}
+										></Route>
 									</Routes>
 								</ProfileContext.Provider>
 							</QueryClientProvider>
