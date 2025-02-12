@@ -12,6 +12,7 @@ import Thread from './Thread';
 import Search from '../Reusable/Search';
 import Profile from './Profile';
 import Friendships from './Friendships';
+import UpdateProfile from './UpdateProfile';
 const queryClient = new QueryClient();
 
 function App() {
@@ -68,6 +69,10 @@ function App() {
 										<Route
 											path="/friendships"
 											element={<Friendships />}
+										></Route>
+										<Route
+											path="/user/update"
+											element={<UpdateProfile />}
 										></Route>
 									</Routes>
 								</ProfileContext.Provider>

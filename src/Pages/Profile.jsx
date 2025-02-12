@@ -126,8 +126,11 @@ export default function Profile() {
 				<p>Loading...</p>
 			)}
 			<div>
-				{profile?.id === currentUser?.user?.id ? null : friendStatus ===
-				  null ? (
+				{profile?.id === currentUser?.user?.id ? (
+					<button onClick={() => navigate('/user/update')}>
+						Update Profile
+					</button>
+				) : friendStatus === null ? (
 					<FriendBtn currentUser={currentUser} receiverId={profile?.id} />
 				) : friendStatus === 'Accepted' ? (
 					<p>Friends</p>
