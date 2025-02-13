@@ -86,9 +86,7 @@ export default function Search({ currentUser, setProfile }) {
 								</div>
 							))}
 						</ul>
-					) : (
-						<p>No users found</p>
-					)}
+					) : null}
 				</div>
 			)}
 		</div>
