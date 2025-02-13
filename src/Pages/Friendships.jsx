@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import ErrorContext from '../Context/errorContext';
 import { useQuery } from '@tanstack/react-query';
 import FriendCard from '../Reusable/FriendCard';
+import ProfileContext from '../Context/profileContext';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 export default function Friendships() {
 	const { currentUser } = useContext(UserContext);
 	const { setError } = useContext(ErrorContext);
+	const { setProfile } = useContext(ProfileContext);
 
 	const navigate = useNavigate();
 
@@ -61,6 +63,7 @@ export default function Friendships() {
 								currentUser={currentUser}
 								friendship={friendship}
 								status={'pending'}
+								setProfile={setProfile}
 							/>
 						))
 					) : (
@@ -75,6 +78,7 @@ export default function Friendships() {
 								key={friendship.id}
 								currentUser={currentUser}
 								friendship={friendship}
+								setProfile={setProfile}
 							/>
 						))
 					) : (
