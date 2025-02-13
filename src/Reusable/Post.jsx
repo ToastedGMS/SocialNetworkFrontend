@@ -38,6 +38,7 @@ export default function Post({
 			</div>
 			<div>
 				<p>{data.content}</p>
+				{data.image && <img src={data.image} alt={'Post Image'} />}
 				<p>Posted on: {data.createdAt}</p>
 				{data.createdAt !== data.updatedAt && <p>Edited: {data.updatedAt}</p>}
 			</div>
