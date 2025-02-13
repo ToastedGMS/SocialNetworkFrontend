@@ -28,6 +28,12 @@ export default function Search({ currentUser, setProfile }) {
 			const res = await response.json();
 			setResults(res.users);
 		} catch (error) {
+			if (
+				error.message.includes('No users found') ||
+				error.message.includes('GET')
+			) {
+				return;
+			}
 			console.error('Failed to search users:', error);
 		} finally {
 			setLoading(false);
@@ -86,6 +92,8 @@ export default function Search({ currentUser, setProfile }) {
 								</div>
 							))}
 						</ul>
+					) : search.trim() ? (
+						<p>No users found.</p>
 					) : null}
 				</div>
 			)}
