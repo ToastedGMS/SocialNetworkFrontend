@@ -33,8 +33,8 @@ export function useDeleteComment(postId) {
 				return oldData.filter((comment) => comment.id !== deletedComment.id);
 			}); //this is necessary because for some reason for the first element the cache wasn't being deleted
 		},
-		onError: (error) => {
-			console.error('Error deleting comment:', error.message);
-		},
+		// onError: (error) => {
+		// 	console.error('Error deleting comment:', error.message);
+		// },
 	});
 }

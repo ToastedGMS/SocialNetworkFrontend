@@ -28,7 +28,7 @@ const LikeButton = ({ postId, user, dataType }) => {
 			const res = await response.json();
 			setIsLiked(res.some((like) => like.authorID === user.user.id));
 		} catch (error) {
-			console.error('Failed to fetch like status:', error);
+			// console.error('Failed to fetch like status:', error);
 		}
 	};
 

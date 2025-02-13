@@ -31,8 +31,8 @@ export function useCreateComment() {
 		onSuccess: () => {
 			queryClient.invalidateQueries(['comments']);
 		},
-		onError: (error) => {
-			console.error('Error creating comment:', error.message);
-		},
+		// onError: (error) => {
+		// 	console.error('Error creating comment:', error.message);
+		// },
 	});
 }

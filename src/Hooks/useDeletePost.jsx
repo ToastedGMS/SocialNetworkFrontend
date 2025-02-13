@@ -27,8 +27,8 @@ export function useDeletePost() {
 		onSuccess: () => {
 			queryClient.invalidateQueries(['posts']);
 		},
-		onError: (error) => {
-			console.error('Error deleting post:', error.message);
-		},
+		// onError: (error) => {
+		// 	console.error('Error deleting post:', error.message);
+		// },
 	});
 }

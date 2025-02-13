@@ -30,8 +30,8 @@ export function useLikePost() {
 		onSuccess: () => {
 			queryClient.invalidateQueries(['posts']);
 		},
-		onError: (error) => {
-			console.error('Error liking post:', error.message);
-		},
+		// onError: (error) => {
+		// 	console.error('Error liking post:', error.message);
+		// },
 	});
 }

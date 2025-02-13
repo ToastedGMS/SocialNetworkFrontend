@@ -30,8 +30,8 @@ export function useUpdateProfile() {
 		onSuccess: () => {
 			queryClient.invalidateQueries(['posts']);
 		},
-		onError: (error) => {
-			console.error('Error updating profile:', error.message);
-		},
+		// onError: (error) => {
+		// 	console.error('Error updating profile:', error.message);
+		// },
 	});
 }

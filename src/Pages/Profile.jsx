@@ -69,7 +69,7 @@ export default function Profile() {
 			// If no friendship exists, set status to null
 			setFriendStatus(null);
 		} catch (error) {
-			console.error('Failed to check friendship status:', error);
+			// console.error('Failed to check friendship status:', error);
 			setFriendStatus(null); // Assume no friendship in case of error
 		}
 	}

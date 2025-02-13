@@ -34,7 +34,7 @@ export default function Search({ currentUser, setProfile }) {
 			) {
 				return;
 			}
-			console.error('Failed to search users:', error);
+			// console.error('Failed to search users:', error);
 		} finally {
 			setLoading(false);
 		}

@@ -31,8 +31,8 @@ export function useAcceptFriendship() {
 		onSuccess: () => {
 			queryClient.invalidateQueries(['friends']);
 		},
-		onError: (error) => {
-			console.error('Error assing friend:', error.message);
-		},
+		// onError: (error) => {
+		// 	console.error('Error assing friend:', error.message);
+		// },
 	});
 }

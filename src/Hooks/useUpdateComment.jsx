@@ -30,8 +30,8 @@ export function useUpdateComment() {
 		onSuccess: () => {
 			queryClient.invalidateQueries(['comments']);
 		},
-		onError: (error) => {
-			console.error('Error updating comment:', error.message);
-		},
+		// onError: (error) => {
+		// 	console.error('Error updating comment:', error.message);
+		// },
 	});
 }

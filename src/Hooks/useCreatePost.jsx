@@ -27,8 +27,8 @@ export function useCreatePost() {
 		onSuccess: () => {
 			queryClient.invalidateQueries(['posts']);
 		},
-		onError: (error) => {
-			console.error('Error creating post:', error.message);
-		},
+		// onError: (error) => {
+		// 	console.error('Error creating post:', error.message);
+		// },
 	});
 }
