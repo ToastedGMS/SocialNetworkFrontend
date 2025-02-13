@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useUpdatePost } from '../Hooks/useUpdatePost';
 import { useUpdateComment } from '../Hooks/useUpdateComment';
+import ErrorMessage from './ErrorMessage';
 
 export default function UpdateContent({
 	data,
@@ -9,6 +10,8 @@ export default function UpdateContent({
 	dataType,
 }) {
 	const [content, setContent] = useState(data.content);
+	const [initialContent] = useState(data.content);
+	const [errorMessage, setError] = useState(null);
 	const { mutate: updatePost } = useUpdatePost();
 	const { mutate: updateComment } = useUpdateComment();
 	return (
@@ -26,14 +29,27 @@ export default function UpdateContent({
 				></textarea>
 				{dataType === 'post' ? (
 					<div>
+						{errorMessage && <ErrorMessage error={errorMessage} />}
+
 						<button
 							onClick={() => {
-								updatePost({
-									postID: data.id,
-									content: content,
-									user: user,
-								});
-								setUpdateStatus(false);
+								if (!content.trim()) {
+									setError("Can't do that!");
+									return;
+								}
+								if (content === initialContent) {
+									setError('Unable to update, no changes made');
+									return;
+								}
+								if (content != initialContent) {
+									updatePost({
+										postID: data.id,
+										content: content,
+										user: user,
+									});
+									setUpdateStatus(false);
+									setError('');
+								}
 							}}
 						>
 							Update
@@ -42,14 +58,27 @@ export default function UpdateContent({
 					</div>
 				) : (
 					<div>
+						{errorMessage && <ErrorMessage error={errorMessage} />}
+
 						<button
 							onClick={() => {
-								updateComment({
-									commentID: data.id,
-									content: content,
-									user: user,
-								});
-								setUpdateStatus(false);
+								if (!content.trim()) {
+									setError("Can't do that!");
+									return;
+								}
+								if (content === initialContent) {
+									setError('Unable to update, no changes made');
+									return;
+								}
+								if (content != initialContent) {
+									updateComment({
+										commentID: data.id,
+										content: content,
+										user: user,
+									});
+									setUpdateStatus(false);
+									setError('');
+								}
 							}}
 						>
 							Update
