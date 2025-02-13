@@ -10,6 +10,11 @@ const DeleteBtn = ({ id, user, dataType, postId }) => {
 			{dataType === 'post' ? (
 				<button
 					onClick={() => {
+						const isConfirmed = window.confirm(
+							'Are you sure you want to delete this post? This action is irreversible!'
+						);
+
+						if (!isConfirmed) return;
 						deletePost({ postId: id, user });
 					}}
 				>
@@ -18,6 +23,11 @@ const DeleteBtn = ({ id, user, dataType, postId }) => {
 			) : (
 				<button
 					onClick={() => {
+						const isConfirmed = window.confirm(
+							'Are you sure you want to delete this comment? This action is irreversible!'
+						);
+
+						if (!isConfirmed) return;
 						deleteComment({ commentID: id, user });
 					}}
 				>
