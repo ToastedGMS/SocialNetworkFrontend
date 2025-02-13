@@ -3,19 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import ErrorContext from '../Context/errorContext';
 import UserContext from '../Context/userContext';
 import UpdateProfileBtn from '../Reusable/UpdateProfileBtn';
+import ErrorMessage from '../Reusable/ErrorMessage';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 export default function UpdateProfile() {
 	const { setError } = useContext(ErrorContext);
 	const { currentUser } = useContext(UserContext);
-	const [usernameVal, setUsernameVal] = useState(currentUser.user.username);
-	const [bioVal, setBioVal] = useState(currentUser.user.bio);
-	const [profilePicVal, setProfilePicVal] = useState(
-		currentUser.user.profilePic
-	);
-	const [isValidPic, setIsValidPic] = useState(true); // Track image validity
-
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -24,6 +18,13 @@ export default function UpdateProfile() {
 			navigate('/login');
 		}
 	}, [currentUser, navigate, setError]);
+
+	const [usernameVal, setUsernameVal] = useState(currentUser.user.username);
+	const [bioVal, setBioVal] = useState(currentUser.user.bio);
+	const [profilePicVal, setProfilePicVal] = useState(
+		currentUser.user.profilePic
+	);
+	const [isValidPic, setIsValidPic] = useState(true); // Track image validity
 
 	// Function to check if the image URL is valid
 	const isValidImage = (url) => {
@@ -41,6 +42,9 @@ export default function UpdateProfile() {
 			isValidImage(profilePicVal).then(setIsValidPic);
 		}
 	}, [profilePicVal]);
+
+	// Disable the update button if username is empty
+	const isFormValid = usernameVal.trim() !== '';
 
 	return (
 		<>
@@ -81,9 +85,9 @@ export default function UpdateProfile() {
 					value={profilePicVal}
 					onChange={(e) => setProfilePicVal(e.target.value)}
 				/>
-				{!isValidPic && <p style={{ color: 'red' }}>Invalid image URL</p>}
+				{!isValidPic && <ErrorMessage error={'Invalid image URL'} />}
 
-				{isValidPic && (
+				{isValidPic && isFormValid && (
 					<UpdateProfileBtn
 						currentUser={currentUser}
 						content={{
@@ -94,6 +98,9 @@ export default function UpdateProfile() {
 						}}
 					/>
 				)}
+
+				{/* Show error if username is empty */}
+				{!isFormValid && <ErrorMessage error={'Username cannot be empty!'} />}
 			</form>
 		</>
 	);
