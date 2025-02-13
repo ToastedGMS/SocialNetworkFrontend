@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useCreateComment } from '../Hooks/useCreateComment';
 import { useCreatePost } from '../Hooks/useCreatePost';
+import ErrorMessage from './ErrorMessage';
 
 export default function NewContent({ currentUser, postID, dataType }) {
 	const [postContent, setPostContent] = useState('');
@@ -8,6 +9,8 @@ export default function NewContent({ currentUser, postID, dataType }) {
 
 	const [commentContent, setCommentContent] = useState('');
 	const { mutate: createComment } = useCreateComment();
+
+	const [errorMessage, setError] = useState(null);
 
 	function sendComment() {
 		createComment({
@@ -40,9 +43,15 @@ export default function NewContent({ currentUser, postID, dataType }) {
 						}}
 						style={{ resize: 'none' }}
 					></textarea>
+					{errorMessage && <ErrorMessage error={errorMessage} />}
 					<button
 						onClick={() => {
+							if (!commentContent.trim()) {
+								setError("Can't post empty comment!");
+								return;
+							}
 							sendComment();
+							setError('');
 						}}
 					>
 						Post
@@ -68,9 +77,16 @@ export default function NewContent({ currentUser, postID, dataType }) {
 						}}
 						style={{ resize: 'none' }}
 					></textarea>
+					{errorMessage && <ErrorMessage error={errorMessage} />}
+
 					<button
 						onClick={() => {
+							if (!postContent.trim()) {
+								setError("Can't publish empty post!");
+								return;
+							}
 							sendPost();
+							setError('');
 						}}
 					>
 						Post
