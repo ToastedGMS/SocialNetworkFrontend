@@ -1,11 +1,5 @@
-import React, { useState } from 'react';
-import {
-	BrowserRouter as Router,
-	Route,
-	Link,
-	Routes,
-	useNavigate,
-} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Signup from './Signup';
 import Login from './Login';
@@ -21,6 +15,7 @@ import Friendships from './Friendships';
 import UpdateProfile from './UpdateProfile';
 import Logout from './Logout';
 const queryClient = new QueryClient();
+import { SocketContext, socket } from '../Context/socketContext';
 
 function App() {
 	const [currentUser, setCurrentUser] = useState(null);
@@ -31,6 +26,16 @@ function App() {
 	const postValue = { postVal, setPostVal };
 	const [profile, setProfile] = useState(null);
 	const profileValue = { profile, setProfile };
+
+	// useEffect(() => {
+	// 	socket.on('connect', onConnect);
+	// 	socket.on('disconnect', onDisconnect);
+
+	// 	return () => {
+	// 		socket.off('connect', onConnect);
+	// 		socket.off('disconnect', onDisconnect);
+	// 	};
+	// }, []);
 
 	return (
 		<Router>
@@ -51,8 +56,11 @@ function App() {
 								<li>
 									<Link to={'/home'}>Home</Link>
 								</li>
-								<li onClick={() => setProfile(currentUser.user)}>
-									<Link to={`/user/${currentUser.user.username}`}>
+								<li>
+									<Link
+										to={`/user/${currentUser.user.username}`}
+										onClick={() => setProfile(currentUser.user)}
+									>
 										My Profile
 									</Link>
 								</li>
@@ -64,33 +72,37 @@ function App() {
 						)}
 					</ul>
 				</nav>
-
-				<UserContext.Provider value={value}>
-					<ErrorContext.Provider value={errorValue}>
-						<PostContext.Provider value={postValue}>
-							<QueryClientProvider client={queryClient}>
-								<ProfileContext.Provider value={profileValue}>
-									<Routes>
-										<Route path="/login" element={<Login />}></Route>
-										<Route path="/signup" element={<Signup />}></Route>
-										<Route path="/home" element={<Home />}></Route>
-										<Route path="/post/:id" element={<Thread />}></Route>
-										<Route path="/user/:username" element={<Profile />}></Route>
-										<Route
-											path="/friendships"
-											element={<Friendships />}
-										></Route>
-										<Route
-											path="/user/update"
-											element={<UpdateProfile />}
-										></Route>
-										<Route path="/logout" element={<Logout />}></Route>
-									</Routes>
-								</ProfileContext.Provider>
-							</QueryClientProvider>
-						</PostContext.Provider>
-					</ErrorContext.Provider>
-				</UserContext.Provider>
+				<SocketContext.Provider value={{ socket }}>
+					<UserContext.Provider value={value}>
+						<ErrorContext.Provider value={errorValue}>
+							<PostContext.Provider value={postValue}>
+								<QueryClientProvider client={queryClient}>
+									<ProfileContext.Provider value={profileValue}>
+										<Routes>
+											<Route path="/login" element={<Login />}></Route>
+											<Route path="/signup" element={<Signup />}></Route>
+											<Route path="/home" element={<Home />}></Route>
+											<Route path="/post/:id" element={<Thread />}></Route>
+											<Route
+												path="/user/:username"
+												element={<Profile />}
+											></Route>
+											<Route
+												path="/friendships"
+												element={<Friendships />}
+											></Route>
+											<Route
+												path="/user/update"
+												element={<UpdateProfile />}
+											></Route>
+											<Route path="/logout" element={<Logout />}></Route>
+										</Routes>
+									</ProfileContext.Provider>
+								</QueryClientProvider>
+							</PostContext.Provider>
+						</ErrorContext.Provider>
+					</UserContext.Provider>
+				</SocketContext.Provider>
 			</div>
 		</Router>
 	);

@@ -7,6 +7,7 @@ import PostContext from '../Context/postContext';
 import ProfileContext from '../Context/profileContext';
 import Post from '../Reusable/Post';
 import NewContent from '../Reusable/NewContent';
+import { SocketContext } from '../Context/socketContext';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -15,6 +16,7 @@ export default function Home() {
 	const { setError } = useContext(ErrorContext);
 	const { setPostVal } = useContext(PostContext);
 	const { setProfile } = useContext(ProfileContext);
+	const { socket } = useContext(SocketContext);
 
 	const navigate = useNavigate();
 
@@ -23,7 +25,20 @@ export default function Home() {
 			setError('Please login first.');
 			navigate('/login');
 		}
-	}, [currentUser, setError, navigate]);
+
+		socket.connect();
+
+		socket.emit('register_user', currentUser.user.id);
+
+		socket.on('welcome', (message) => {
+			console.log(message);
+		});
+
+		return () => {
+			socket.disconnect();
+			socket.off('welcome');
+		};
+	}, [currentUser, setError, navigate, socket]);
 
 	const generateFeed = async () => {
 		const response = await fetch(
