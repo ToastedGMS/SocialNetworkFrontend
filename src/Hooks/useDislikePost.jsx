@@ -30,8 +30,8 @@ export function useDislikePost() {
 		onSuccess: () => {
 			queryClient.invalidateQueries(['posts']);
 		},
-		// onError: (error) => {
-		// 	console.error('Error disliking post:', error.message);
-		// },
+		onError: (error) => {
+			console.error('Error disliking post:', error.message);
+		},
 	});
 }

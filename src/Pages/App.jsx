@@ -16,6 +16,7 @@ import UpdateProfile from './UpdateProfile';
 import Logout from './Logout';
 const queryClient = new QueryClient();
 import { SocketContext, socket } from '../Context/socketContext';
+import Notifications from './Notifications';
 
 function App() {
 	const [currentUser, setCurrentUser] = useState(null);
@@ -68,6 +69,9 @@ function App() {
 									<Link to={'/friendships'}>Friendships</Link>
 								</li>
 								<Search currentUser={currentUser} setProfile={setProfile} />
+								<li>
+									<Link to={'/notifications'}>Notifications</Link>
+								</li>
 							</>
 						)}
 					</ul>
@@ -96,6 +100,10 @@ function App() {
 												element={<UpdateProfile />}
 											></Route>
 											<Route path="/logout" element={<Logout />}></Route>
+											<Route
+												path="/notifications"
+												element={<Notifications />}
+											></Route>
 										</Routes>
 									</ProfileContext.Provider>
 								</QueryClientProvider>

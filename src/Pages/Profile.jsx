@@ -7,6 +7,7 @@ import PostContext from '../Context/postContext';
 import { useQuery } from '@tanstack/react-query';
 import Post from '../Reusable/Post';
 import FriendBtn from '../Reusable/FriendBtn';
+import { SocketContext } from '../Context/socketContext';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -15,6 +16,7 @@ export default function Profile() {
 	const { currentUser } = useContext(UserContext);
 	const { profile } = useContext(ProfileContext);
 	const { setPostVal } = useContext(PostContext);
+	const { socket } = useContext(SocketContext);
 
 	const navigate = useNavigate();
 
@@ -151,6 +153,7 @@ export default function Profile() {
 								currentUser={currentUser}
 								key={post.id}
 								profileClick={false}
+								socket={socket}
 							/>
 						))
 					) : (

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import UserContext from '../Context/userContext';
 import { useNavigate } from 'react-router-dom';
 import ErrorContext from '../Context/errorContext';
@@ -17,6 +17,7 @@ export default function Home() {
 	const { setPostVal } = useContext(PostContext);
 	const { setProfile } = useContext(ProfileContext);
 	const { socket } = useContext(SocketContext);
+	const [message, setMessage] = useState(null);
 
 	const navigate = useNavigate();
 
@@ -32,6 +33,16 @@ export default function Home() {
 
 		socket.on('welcome', (message) => {
 			console.log(message);
+		});
+
+		socket.on('like_notification', ({ sender, post }) => {
+			setMessage(`User ${sender} liked your post of ID ${post}`);
+		});
+
+		socket.on('unread_notifications', (notifications) => {
+			if (notifications.length > 0) {
+				console.log(`You have ${notifications.length} unread notifications!`);
+			}
 		});
 
 		return () => {
@@ -78,6 +89,7 @@ export default function Home() {
 	return (
 		<>
 			<NewContent currentUser={currentUser} postID={null} dataType={'post'} />
+			{message && <p>{message}</p>}
 			<div>
 				{data && data.length !== 0 ? (
 					data.map((post) => (
@@ -88,6 +100,7 @@ export default function Home() {
 							setPostVal={setPostVal}
 							key={post.id}
 							profileClick={true}
+							socket={socket}
 						/>
 					))
 				) : (

@@ -3,7 +3,7 @@ import LikeButton from './LikeBtn';
 import CommentBtn from './CommentBtn';
 import DeleteBtn from './DeleteBtn';
 import UpdateContent from './UpdateContent';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Post({
 	data,
@@ -12,12 +12,19 @@ export default function Post({
 	hideComments,
 	setProfile,
 	profileClick,
+	socket,
 }) {
 	const [updateStatus, setUpdateStatus] = useState(false);
 	const navigate = useNavigate();
+	const location = useLocation();
+	const postData = location.state ? location.state.postData : null;
+	if (!data.author) {
+		data = postData;
+	}
 
 	return (
 		<div style={{ border: '1px solid black' }}>
+			{console.log(postData)}
 			<div
 				style={{ display: 'flex', alignItems: 'center' }}
 				onClick={
@@ -51,7 +58,13 @@ export default function Post({
 				/>
 			)}
 			<div>
-				<LikeButton postId={data.id} user={currentUser} dataType={'post'} />
+				<LikeButton
+					postId={data.id}
+					user={currentUser}
+					author={data.author.id}
+					dataType={'post'}
+					socket={socket}
+				/>
 				{!hideComments && <span>{data.likeCount}</span>}
 			</div>
 			{!hideComments && (
