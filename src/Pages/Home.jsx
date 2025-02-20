@@ -33,10 +33,6 @@ export default function Home() {
 
 		socket.emit('register_user', currentUser.user.id);
 
-		socket.on('welcome', (message) => {
-			console.log(message);
-		});
-
 		socket.on('like_notification', ({ sender, post }) => {
 			setMessage(`User ${sender} liked your post of ID ${post}`);
 		});
