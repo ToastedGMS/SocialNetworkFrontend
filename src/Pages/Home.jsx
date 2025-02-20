@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import UserContext from '../Context/userContext';
 import { useNavigate } from 'react-router-dom';
 import ErrorContext from '../Context/errorContext';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import PostContext from '../Context/postContext';
 import ProfileContext from '../Context/profileContext';
 import Post from '../Reusable/Post';
@@ -20,6 +20,7 @@ export default function Home() {
 	const [message, setMessage] = useState(null);
 
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 
 	useEffect(() => {
 		if (!currentUser?.user?.id) {
@@ -44,6 +45,10 @@ export default function Home() {
 			if (notifications.length > 0) {
 				console.log(`You have ${notifications.length} unread notifications!`);
 			}
+		});
+
+		socket.on('new_post', () => {
+			queryClient.invalidateQueries(['posts']);
 		});
 
 		return () => {
