@@ -43,12 +43,16 @@ function App() {
 			<div>
 				<nav>
 					<ul>
-						<li>
-							<Link to={'/login'}>Login</Link>
-						</li>
-						<li>
-							<Link to={'/signup'}>Signup</Link>
-						</li>
+						{!currentUser && (
+							<>
+								<li>
+									<Link to={'/login'}>Login</Link>
+								</li>
+								<li>
+									<Link to={'/signup'}>Signup</Link>
+								</li>
+							</>
+						)}
 						{currentUser && (
 							<>
 								<li>
@@ -68,10 +72,15 @@ function App() {
 								<li>
 									<Link to={'/friendships'}>Friendships</Link>
 								</li>
-								<Search currentUser={currentUser} setProfile={setProfile} />
 								<li>
 									<Link to={'/notifications'}>Notifications</Link>
 								</li>
+								{currentUser && (
+									<>
+										{' '}
+										<Search currentUser={currentUser} setProfile={setProfile} />
+									</>
+								)}
 							</>
 						)}
 					</ul>
