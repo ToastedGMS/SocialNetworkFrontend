@@ -49,7 +49,7 @@ const LikeButton = ({ postId, user, dataType, author, socket }) => {
 		<button
 			onClick={() => {
 				isLiked ? dislikePost({ postId, user, dataType }) : handleLike();
-				setIsLiked(isLiked ? false : true);
+				setIsLiked((prev) => !prev);
 			}}
 		>
 			{isLiked ? 'Dislike' : 'Like'}
