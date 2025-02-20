@@ -21,11 +21,10 @@ export default function Profile() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (currentUser === undefined) return;
-
-		if (currentUser === null) {
+		if (!currentUser?.user?.id) {
 			setError('Please login first.');
 			navigate('/login');
+			return;
 		}
 	}, [currentUser, navigate, setError]);
 

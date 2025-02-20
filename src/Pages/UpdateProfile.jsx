@@ -13,9 +13,10 @@ export default function UpdateProfile() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (!currentUser) {
+		if (!currentUser?.user?.id) {
 			setError('Please login first.');
 			navigate('/login');
+			return;
 		}
 	}, [currentUser, navigate, setError]);
 

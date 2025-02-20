@@ -7,6 +7,7 @@ import Post from '../Reusable/Post';
 import Comment from '../Reusable/Comment';
 import { useQuery } from '@tanstack/react-query';
 import NewContent from '../Reusable/NewContent';
+import { SocketContext } from '../Context/socketContext';
 import ProfileContext from '../Context/profileContext';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
@@ -15,13 +16,15 @@ export default function Thread() {
 	const { currentUser } = useContext(UserContext);
 	const { setError } = useContext(ErrorContext);
 	const { setProfile } = useContext(ProfileContext);
+	const { socket } = useContext(SocketContext);
 
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (currentUser === null) {
+		if (!currentUser?.user?.id) {
 			setError('Please login first.');
 			navigate('/login');
+			return;
 		}
 	}, [currentUser, setError, navigate]);
 
@@ -102,11 +105,15 @@ export default function Thread() {
 				)}
 			</div>
 			<div>
-				<NewContent
-					currentUser={currentUser}
-					postID={postVal}
-					dataType={'comment'}
-				/>
+				{postData && (
+					<NewContent
+						currentUser={currentUser}
+						postID={postVal}
+						dataType={'comment'}
+						socket={socket}
+						postAuthor={postData.authorID}
+					/>
+				)}
 			</div>
 		</>
 	);

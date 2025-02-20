@@ -3,7 +3,13 @@ import { useCreateComment } from '../Hooks/useCreateComment';
 import { useCreatePost } from '../Hooks/useCreatePost';
 import ErrorMessage from './ErrorMessage';
 
-export default function NewContent({ currentUser, postID, dataType }) {
+export default function NewContent({
+	currentUser,
+	postID,
+	dataType,
+	socket,
+	postAuthor,
+}) {
 	const [postContent, setPostContent] = useState('');
 	const { mutate: createPost } = useCreatePost();
 
@@ -44,6 +50,12 @@ export default function NewContent({ currentUser, postID, dataType }) {
 			content: commentContent,
 			user: currentUser,
 			postID: postID,
+		});
+		socket.emit('new_comment', {
+			sender: currentUser.user.id,
+			post: postID,
+			senderName: currentUser.user.username,
+			receiver: postAuthor,
 		});
 		setCommentContent('');
 	}

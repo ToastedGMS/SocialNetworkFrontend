@@ -11,8 +11,16 @@ export default function Notifications() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		socket.emit('mark_notifications_read', currentUser.user.id);
-	}, []);
+		if (!currentUser?.user?.id) {
+			setError('Please login first.');
+			navigate('/login');
+			return;
+		}
+
+		if (socket && currentUser?.user?.id) {
+			socket.emit('mark_notifications_read', currentUser.user.id);
+		}
+	}, [socket, currentUser]);
 
 	const fetchNotifs = async () => {
 		const response = await fetch(
@@ -46,34 +54,68 @@ export default function Notifications() {
 	}
 	return (
 		<>
-			{data.map((notification) => {
-				return (
-					<div
-						style={{ border: '1px solid black' }}
-						key={notification.id}
-						onClick={async () => {
-							const data = await fetch(
-								`${serverUrl}/api/posts/read?id=${notification.contentID}&authorID=${currentUser.user.id}`
-							);
+			<div>
+				<h2>Unread Notifications</h2>
+				{data.unreadNotifs.map((notification) => {
+					return (
+						<div
+							style={{ border: '1px solid black' }}
+							key={notification.id}
+							onClick={async () => {
+								const data = await fetch(
+									`${serverUrl}/api/posts/read?id=${notification.contentID}&authorID=${currentUser.user.id}`
+								);
 
-							if (!data.ok) {
-								const errorResponse = await data.json();
-								throw new Error(errorResponse.error || 'Error fetching');
-							}
+								if (!data.ok) {
+									const errorResponse = await data.json();
+									throw new Error(errorResponse.error || 'Error fetching');
+								}
 
-							const res = await data.json();
+								const res = await data.json();
 
-							navigate(`/post/${notification.contentID}`, {
-								state: { postData: res },
-							});
-						}}
-					>
-						<p>
-							{notification.senderName} {notification.type}
-						</p>
-					</div>
-				);
-			})}
+								navigate(`/post/${notification.contentID}`, {
+									state: { postData: res },
+								});
+							}}
+						>
+							<p>
+								{notification.senderName} {notification.type}
+							</p>
+						</div>
+					);
+				})}
+			</div>
+			<div>
+				<h2>Read Notifications</h2>
+				{data.readNotifs.map((notification) => {
+					return (
+						<div
+							style={{ border: '1px solid black' }}
+							key={notification.id}
+							onClick={async () => {
+								const data = await fetch(
+									`${serverUrl}/api/posts/read?id=${notification.contentID}&authorID=${currentUser.user.id}`
+								);
+
+								if (!data.ok) {
+									const errorResponse = await data.json();
+									throw new Error(errorResponse.error || 'Error fetching');
+								}
+
+								const res = await data.json();
+
+								navigate(`/post/${notification.contentID}`, {
+									state: { postData: res },
+								});
+							}}
+						>
+							<p>
+								{notification.senderName} {notification.type}
+							</p>
+						</div>
+					);
+				})}
+			</div>
 		</>
 	);
 }

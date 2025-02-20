@@ -24,7 +24,6 @@ export default function Post({
 
 	return (
 		<div style={{ border: '1px solid black' }}>
-			{console.log(postData)}
 			<div
 				style={{ display: 'flex', alignItems: 'center' }}
 				onClick={

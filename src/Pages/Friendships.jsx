@@ -16,9 +16,10 @@ export default function Friendships() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (currentUser === null) {
+		if (!currentUser?.user?.id) {
 			setError('Please login first.');
 			navigate('/login');
+			return;
 		}
 	}, [currentUser, setError, navigate]);
 

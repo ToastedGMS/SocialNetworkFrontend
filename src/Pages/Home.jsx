@@ -22,9 +22,10 @@ export default function Home() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (currentUser === null) {
+		if (!currentUser?.user?.id) {
 			setError('Please login first.');
 			navigate('/login');
+			return;
 		}
 
 		socket.connect();
