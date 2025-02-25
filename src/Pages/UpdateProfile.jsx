@@ -25,36 +25,50 @@ export default function UpdateProfile() {
 	const [profilePicVal, setProfilePicVal] = useState(
 		currentUser.user.profilePic
 	);
-	const [isValidPic, setIsValidPic] = useState(true); // Track image validity
+	const [isValidPic, setIsValidPic] = useState(true);
 
-	// Function to check if the image URL is valid
-	const isValidImage = (url) => {
-		return new Promise((resolve) => {
-			const img = new Image();
-			img.src = url;
-			img.onload = () => resolve(true);
-			img.onerror = () => resolve(false);
-		});
+	const [file, setFile] = useState(null);
+	const [uploadResponse, setUploadResponse] = useState(null);
+
+	const handleFileChange = (e) => {
+		setFile(e.target.files[0]);
 	};
 
-	// Handle image validation when URL changes
 	useEffect(() => {
-		if (profilePicVal) {
-			isValidImage(profilePicVal).then(setIsValidPic);
+		if (uploadResponse) {
+			setProfilePicVal(uploadResponse.fileUrl);
 		}
-	}, [profilePicVal]);
+	}, [uploadResponse]);
 
-	// Disable the update button if username is empty
+	const handleUpload = async () => {
+		const formData = new FormData();
+		formData.append('file', file);
+
+		try {
+			const response = await fetch(`${serverUrl}/upload`, {
+				method: 'POST',
+				body: formData,
+			});
+
+			if (!response.ok) {
+				const errorText = await response.text();
+				console.error('Error response:', errorText);
+				return;
+			}
+
+			const result = await response.json();
+			setUploadResponse(result);
+		} catch (error) {
+			console.error('Error uploading file:', error);
+		}
+	};
+
 	const isFormValid = usernameVal.trim() !== '';
 
 	return (
 		<>
 			<div style={{ border: '1px solid black' }}>
-				{isValidPic ? (
-					<img src={profilePicVal} alt={`${usernameVal}'s profile picture`} />
-				) : (
-					<p>Invalid image URL</p>
-				)}
+				<img src={profilePicVal} alt={`${usernameVal}'s profile picture`} />
 				<p>{usernameVal}</p>
 				<p>{bioVal}</p>
 			</div>
@@ -78,15 +92,21 @@ export default function UpdateProfile() {
 					onChange={(e) => setBioVal(e.target.value)}
 				/>
 
-				<label htmlFor="profilePic">Profile Picture URL: </label>
-				<input
-					type="text"
-					name="profilePic"
-					id="profilePic"
-					value={profilePicVal}
-					onChange={(e) => setProfilePicVal(e.target.value)}
-				/>
-				{!isValidPic && <ErrorMessage error={'Invalid image URL'} />}
+				<label htmlFor="profilePic">Profile Picture: </label>
+				<input type="file" onChange={handleFileChange} />
+				<button onClick={handleUpload}>Upload</button>
+
+				{uploadResponse && (
+					<div>
+						<p>{uploadResponse.message}</p>
+						<p>Image preview:</p>
+						<img
+							src={uploadResponse.fileUrl}
+							alt="Uploaded preview"
+							width={'200px'}
+						/>
+					</div>
+				)}
 
 				{isValidPic && isFormValid && (
 					<UpdateProfileBtn
@@ -95,12 +115,11 @@ export default function UpdateProfile() {
 							username: usernameVal,
 							email: currentUser.user.email,
 							bio: bioVal,
-							profilePic: isValidPic ? profilePicVal : '',
+							profilePic: profilePicVal,
 						}}
 					/>
 				)}
 
-				{/* Show error if username is empty */}
 				{!isFormValid && <ErrorMessage error={'Username cannot be empty!'} />}
 			</form>
 		</>
