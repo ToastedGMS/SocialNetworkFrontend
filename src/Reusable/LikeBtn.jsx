@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useLikePost } from '../Hooks/useLikePost';
 import { useDislikePost } from '../Hooks/useDislikePost';
+import style from './styles/LikeBtn.module.css';
+
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 const LikeButton = ({ postId, user, dataType, author, socket }) => {
@@ -47,13 +49,16 @@ const LikeButton = ({ postId, user, dataType, author, socket }) => {
 	}, [postId]);
 	return (
 		<button
+			className={[
+				isLiked ? 'fa-solid' : 'fa-regular',
+				'fa-heart',
+				style.button,
+			].join(' ')}
 			onClick={() => {
 				isLiked ? dislikePost({ postId, user, dataType }) : handleLike();
 				setIsLiked((prev) => !prev);
 			}}
-		>
-			{isLiked ? 'Dislike' : 'Like'}
-		</button>
+		></button>
 	);
 };
 

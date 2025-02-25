@@ -1,5 +1,6 @@
 import { useDeleteComment } from '../Hooks/useDeleteComment';
 import { useDeletePost } from '../Hooks/useDeletePost';
+import style from './styles/DeleteBtn.module.css';
 
 const DeleteBtn = ({ id, user, dataType, postId }) => {
 	const { mutate: deletePost } = useDeletePost();
@@ -9,6 +10,7 @@ const DeleteBtn = ({ id, user, dataType, postId }) => {
 		<div>
 			{dataType === 'post' ? (
 				<button
+					className={[style.button, 'fa-solid', 'fa-trash'].join(' ')}
 					onClick={() => {
 						const isConfirmed = window.confirm(
 							'Are you sure you want to delete this post? This action is irreversible!'
@@ -17,11 +19,10 @@ const DeleteBtn = ({ id, user, dataType, postId }) => {
 						if (!isConfirmed) return;
 						deletePost({ postId: id, user });
 					}}
-				>
-					Delete
-				</button>
+				></button>
 			) : (
 				<button
+					className={style.button}
 					onClick={() => {
 						const isConfirmed = window.confirm(
 							'Are you sure you want to delete this comment? This action is irreversible!'
@@ -30,9 +31,7 @@ const DeleteBtn = ({ id, user, dataType, postId }) => {
 						if (!isConfirmed) return;
 						deleteComment({ commentID: id, user });
 					}}
-				>
-					Delete
-				</button>
+				></button>
 			)}
 		</div>
 	);

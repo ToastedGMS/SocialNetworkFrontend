@@ -39,7 +39,7 @@ export default function NewContent({
 		createPost({
 			content: postContent,
 			user: currentUser,
-			image: isValidImage ? imageVal : null,
+			image: imageVal || null,
 		});
 		setPostContent('');
 	}

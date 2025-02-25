@@ -4,6 +4,9 @@ import CommentBtn from './CommentBtn';
 import DeleteBtn from './DeleteBtn';
 import UpdateContent from './UpdateContent';
 import { useLocation, useNavigate } from 'react-router-dom';
+import style from './styles/EditBtn.module.css';
+import post from './styles/Post.module.css';
+import { format } from 'date-fns';
 
 export default function Post({
 	data,
@@ -23,9 +26,9 @@ export default function Post({
 	}
 
 	return (
-		<div style={{ border: '1px solid black' }}>
+		<div className={post.container}>
 			<div
-				style={{ display: 'flex', alignItems: 'center' }}
+				className={post.profile}
 				onClick={
 					profileClick
 						? () => {
@@ -35,28 +38,31 @@ export default function Post({
 						: null
 				}
 			>
-				<img
-					src={data.author.profilePic}
-					alt="User profile picture"
-					style={{ width: '5em' }}
-				/>
+				<img src={data.author.profilePic} alt="User profile picture" />
 				<p>{data.author.username}</p>
 			</div>
 			<div>
-				<p>{data.content}</p>
-				{data.image && <img src={data.image} alt={'Post Image'} />}
-				<p>Posted on: {data.createdAt}</p>
-				{data.createdAt !== data.updatedAt && <p>Edited: {data.updatedAt}</p>}
+				<p className={post.content}>{data.content}</p>
+				{data.image && (
+					<img className={post.image} src={data.image} alt={'Post Image'} />
+				)}
+				<div className={post.date}>
+					<p>{format(data.createdAt, 'MMM dd, yyyy h:mm a')}</p>
+					{data.createdAt !== data.updatedAt && (
+						<p>Edited: {format(data.updatedAt, 'MMM dd, yyyy h:mm a')}</p>
+					)}
+				</div>
 			</div>
-			{updateStatus && (
-				<UpdateContent
-					data={data}
-					setUpdateStatus={setUpdateStatus}
-					user={currentUser}
-					dataType={'post'}
-				/>
-			)}
-			<div>
+			<div className={post.actions}>
+				{updateStatus && (
+					<UpdateContent
+						data={data}
+						setUpdateStatus={setUpdateStatus}
+						user={currentUser}
+						dataType={'post'}
+					/>
+				)}
+
 				<LikeButton
 					postId={data.id}
 					user={currentUser}
@@ -65,20 +71,28 @@ export default function Post({
 					socket={socket}
 				/>
 				{!hideComments && <span>{data.likeCount}</span>}
-			</div>
-			{!hideComments && (
-				<div>
-					<CommentBtn postId={data.id} setPostVal={setPostVal} />
-					<span>{data.commentCount}</span>
 
-					{data.author.id === currentUser.user.id && (
-						<div>
-							<DeleteBtn id={data.id} user={currentUser} dataType={'post'} />
-							<button onClick={() => setUpdateStatus(true)}>Edit</button>
-						</div>
-					)}
-				</div>
-			)}
+				{!hideComments && (
+					<>
+						<CommentBtn postId={data.id} setPostVal={setPostVal} />
+						<span>{data.commentCount}</span>
+
+						{data.author.id === currentUser.user.id && (
+							<>
+								<DeleteBtn id={data.id} user={currentUser} dataType={'post'} />
+								<button
+									onClick={() => setUpdateStatus(true)}
+									className={[
+										style.button,
+										'fa-solid',
+										'fa-pen-to-square',
+									].join(' ')}
+								></button>
+							</>
+						)}
+					</>
+				)}
+			</div>
 		</div>
 	);
 }
