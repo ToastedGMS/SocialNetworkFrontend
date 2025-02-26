@@ -1,0 +1,22 @@
+.container {
+	max-width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.search {
+	height: 2em;
+	border: 1px solid #ccc;
+	border-radius: 15px;
+	font-size: 1em;
+	resize: none;
+	outline: none;
+	display: flex;
+	align-items: center;
+	padding-top: 1em;
+	padding-left: 1em;
+	text-wrap: nowrap;
+	overflow: hidden;
+	font-weight: 600;
+	max-width: 90%;
+}

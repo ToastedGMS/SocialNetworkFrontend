@@ -98,6 +98,7 @@ export default function NewContent({
 			{dataType === 'comment' ? (
 				<>
 					<textarea
+						className={style.textInput}
 						name="input"
 						id="input"
 						cols="80"
@@ -125,6 +126,7 @@ export default function NewContent({
 					<div className={style.content}>
 						<img src={currentUser.user.profilePic} alt="User profile picture" />
 						<textarea
+							className={style.textInput}
 							name="input"
 							id="input"
 							cols="80"

@@ -25,7 +25,7 @@
 	object-fit: cover;
 }
 
-textarea {
+.textInput {
 	flex-grow: 1;
 	min-height: 3em;
 	padding: 0.8em;
@@ -36,7 +36,7 @@ textarea {
 	outline: none;
 }
 
-textarea:focus {
+.textInput:focus {
 	border: 1px solid rgb(83, 83, 236);
 }
 

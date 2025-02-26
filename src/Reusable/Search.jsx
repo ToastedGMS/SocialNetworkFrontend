@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import UserSearchCard from './UserSearchCard';
 import { useNavigate } from 'react-router-dom';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
+import styles from './styles/Search.module.css';
 
 export default function Search({ currentUser, setProfile }) {
 	const [search, setSearch] = useState('');
@@ -53,8 +54,9 @@ export default function Search({ currentUser, setProfile }) {
 	}, [search]);
 
 	return (
-		<div>
+		<div className={styles.container}>
 			<textarea
+				className={styles.search}
 				name="search"
 				id="search"
 				cols="80"
