@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
-import { useLikePost } from '../Hooks/useLikePost';
-import { useDislikePost } from '../Hooks/useDislikePost';
-import style from './styles/LikeBtn.module.css';
-
-const serverUrl = import.meta.env.VITE_SERVER_URL;
-
-const LikeButton = ({ postId, user, dataType, author, socket }) => {
+const LikeButton = ({
+	postId,
+	user,
+	dataType,
+	author,
+	socket,
+	likeCount,
+	setLikeCount,
+}) => {
 	const { mutate: likePost } = useLikePost();
 	const { mutate: dislikePost } = useDislikePost();
 	const [isLiked, setIsLiked] = useState(false);
@@ -33,8 +34,13 @@ const LikeButton = ({ postId, user, dataType, author, socket }) => {
 			// console.error('Failed to fetch like status:', error);
 		}
 	};
+
 	function handleLike() {
 		likePost({ postId, user, dataType });
+
+		if (setLikeCount) {
+			setLikeCount(likeCount + 1);
+		}
 
 		socket.emit('new_like', {
 			sender: user.user.id,
@@ -44,9 +50,18 @@ const LikeButton = ({ postId, user, dataType, author, socket }) => {
 		});
 	}
 
+	function handleDislike() {
+		dislikePost({ postId, user, dataType });
+
+		if (setLikeCount) {
+			setLikeCount(likeCount - 1);
+		}
+	}
+
 	useEffect(() => {
 		likeStatus();
 	}, [postId]);
+
 	return (
 		<button
 			className={[
@@ -55,11 +70,9 @@ const LikeButton = ({ postId, user, dataType, author, socket }) => {
 				style.button,
 			].join(' ')}
 			onClick={() => {
-				isLiked ? dislikePost({ postId, user, dataType }) : handleLike();
+				isLiked ? handleDislike() : handleLike();
 				setIsLiked((prev) => !prev);
 			}}
 		></button>
 	);
 };
-
-export default LikeButton;
