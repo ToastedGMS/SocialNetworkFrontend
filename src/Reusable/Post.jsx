@@ -43,9 +43,7 @@ export default function Post({
 			</div>
 			<div>
 				<p className={post.content}>{data.content}</p>
-				{data.image && (
-					<img className={post.image} src={data.image} alt={'Post Image'} />
-				)}
+				{data.image && <img className={post.image} src={data.image} />}
 				<div className={post.date}>
 					<p>{format(data.createdAt, 'MMM dd, yyyy h:mm a')}</p>
 					{data.createdAt !== data.updatedAt && (

@@ -38,7 +38,8 @@
 
 .image {
 	border-radius: 15px;
-	width: 90%;
+	max-width: 90%;
+	max-height: 80%;
 	object-fit: cover;
 	margin: 1em auto;
 }
