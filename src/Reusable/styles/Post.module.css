@@ -30,6 +30,7 @@
 
 .content {
 	font-size: 2em;
+	word-wrap: break-word;
 }
 
 .content p {
