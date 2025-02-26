@@ -40,9 +40,10 @@
 .image {
 	border-radius: 15px;
 	max-width: 90%;
-	max-height: 80%;
+	max-height: 500px;
 	object-fit: cover;
 	margin: 1em auto;
+	display: block;
 }
 .actions {
 	display: flex;
