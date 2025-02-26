@@ -17,6 +17,7 @@ import Logout from './Logout';
 const queryClient = new QueryClient();
 import { SocketContext, socket } from '../Context/socketContext';
 import Notifications from './Notifications';
+import style from './styles/App.module.css';
 
 function App() {
 	const [currentUser, setCurrentUser] = useState(null);
@@ -28,62 +29,65 @@ function App() {
 	const [profile, setProfile] = useState(null);
 	const profileValue = { profile, setProfile };
 
-	// useEffect(() => {
-	// 	socket.on('connect', onConnect);
-	// 	socket.on('disconnect', onDisconnect);
-
-	// 	return () => {
-	// 		socket.off('connect', onConnect);
-	// 		socket.off('disconnect', onDisconnect);
-	// 	};
-	// }, []);
-
 	return (
 		<Router>
-			<div>
-				<nav>
-					<ul>
+			<div style={{ display: 'flex', flexDirection: 'column' }}>
+				<nav className={style.container}>
+					<ul className={style.ul}>
 						{!currentUser && (
 							<>
 								<li>
-									<Link to={'/login'}>Login</Link>
+									<Link to={'/login'} title="Login">
+										<i className="fa-solid fa-right-to-bracket"></i>
+									</Link>
 								</li>
 								<li>
-									<Link to={'/signup'}>Signup</Link>
+									<Link to={'/signup'} title="Signup">
+										<i className="fa-solid fa-user-plus"></i>
+									</Link>
 								</li>
 							</>
 						)}
 						{currentUser && (
 							<>
 								<li>
-									<Link to={'/logout'}>Logout</Link>
-								</li>
-								<li>
-									<Link to={'/home'}>Home</Link>
-								</li>
-								<li>
-									<Link
-										to={`/user/${currentUser.user.username}`}
-										onClick={() => setProfile(currentUser.user)}
-									>
-										My Profile
+									<Link to={'/home'} title="Home">
+										<i className="fa-solid fa-house"></i>
 									</Link>
 								</li>
 								<li>
-									<Link to={'/friendships'}>Friendships</Link>
+									<Link
+										title="Profile"
+										to={`/user/${currentUser.user.username}`}
+										onClick={() => setProfile(currentUser.user)}
+									>
+										<i className="fa-solid fa-user"></i>
+									</Link>
 								</li>
 								<li>
-									<Link to={'/notifications'}>Notifications</Link>
+									<Link to={'/friendships'} title="Friendships">
+										<i className="fa-solid fa-user-group"></i>
+									</Link>
 								</li>
-								{currentUser && (
-									<>
-										{' '}
-										<Search currentUser={currentUser} setProfile={setProfile} />
-									</>
-								)}
+								<li>
+									<Link to={'/notifications'} title="Notifications">
+										<i className="fa-solid fa-bell"></i>
+									</Link>
+								</li>
+								<li>
+									<Link to={'/logout'} title="Logout">
+										<i className="fa-solid fa-right-from-bracket"></i>
+									</Link>
+								</li>
 							</>
 						)}
 					</ul>
+					{currentUser && (
+						<div className={style.searchContainer}>
+							{' '}
+							<Search currentUser={currentUser} setProfile={setProfile} />
+						</div>
+					)}
 				</nav>
 				<SocketContext.Provider value={{ socket }}>
 					<UserContext.Provider value={value}>
