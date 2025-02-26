@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import Post from '../Reusable/Post';
 import FriendBtn from '../Reusable/FriendBtn';
 import { SocketContext } from '../Context/socketContext';
+import style from './styles/Profile.module.css';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -115,18 +116,18 @@ export default function Profile() {
 	return (
 		<>
 			{profile ? (
-				<div style={{ border: '1px solid black' }}>
+				<div className={style.userInfo}>
 					<img
 						src={profile.profilePic}
 						alt={`${profile.username}'s profile picture`}
 					/>
-					<p>{profile.username}</p>
-					<p>{profile.bio}</p>
+					<p className={style.username}>{profile.username}</p>
+					<p className={style.bio}>{profile.bio}</p>
 				</div>
 			) : (
 				<p>Loading...</p>
 			)}
-			<div>
+			<div className={style.action}>
 				{profile?.id === currentUser?.user?.id ? (
 					<button onClick={() => navigate('/user/update')}>
 						Update Profile
@@ -140,7 +141,6 @@ export default function Profile() {
 				)}
 			</div>
 			<div>
-				<p>{profile?.username}'s posts</p>
 				{isLoading && <p>Loading...</p>}
 				{error && <p>No posts found...</p>}
 				<div>
