@@ -71,7 +71,7 @@ export default function Search({ currentUser, setProfile }) {
 			) : (
 				<div>
 					{results.length > 0 ? (
-						<ul>
+						<ul className={styles.ul}>
 							{results.map((user) => (
 								<div
 									onClick={() => {

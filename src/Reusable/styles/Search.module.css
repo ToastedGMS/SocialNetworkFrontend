@@ -4,6 +4,7 @@
 	justify-content: center;
 	flex-direction: column;
 	color: white;
+	text-align: center;
 }
 
 .search {
@@ -21,6 +22,7 @@
 	overflow: hidden;
 	font-weight: 600;
 	max-width: 90%;
+	margin: 1em auto;
 }
 
 .text {
@@ -28,4 +30,8 @@
 	font-weight: 600;
 	margin: 0%;
 	margin-top: 1em;
+}
+
+.ul {
+	padding: 0%;
 }

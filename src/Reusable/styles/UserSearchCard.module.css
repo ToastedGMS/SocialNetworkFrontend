@@ -8,6 +8,12 @@
 	padding: 1em;
 }
 
+.container:hover {
+	cursor: pointer;
+	outline: 2px solid gray;
+	outline-offset: 2px;
+}
+
 .cardImage {
 	width: 3em;
 	height: 3em;
