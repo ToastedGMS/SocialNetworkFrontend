@@ -8,6 +8,7 @@ import UserContext from '../Context/userContext';
 import ErrorContext from '../Context/errorContext';
 import PostContext from '../Context/postContext';
 import ProfileContext from '../Context/profileContext';
+import NotificationContext from '../Context/notificationContext';
 import Thread from './Thread';
 import Search from '../Reusable/Search';
 import Profile from './Profile';
@@ -28,6 +29,8 @@ function App() {
 	const postValue = { postVal, setPostVal };
 	const [profile, setProfile] = useState(null);
 	const profileValue = { profile, setProfile };
+	const [notifications, setNotifs] = useState(null);
+	const notifValue = { notifications, setNotifs };
 
 	return (
 		<Router>
@@ -70,10 +73,39 @@ function App() {
 									</Link>
 								</li>
 								<li>
-									<Link to={'/notifications'} title="Notifications">
+									<Link
+										to={'/notifications'}
+										title="Notifications"
+										className="notification-link"
+										style={{ position: 'relative', display: 'inline-block' }}
+									>
 										<i className="fa-solid fa-bell"></i>
+										{Array.isArray(notifications) &&
+											notifications.length > 0 && (
+												<span
+													style={{
+														position: 'absolute',
+														top: '-5px',
+														right: '-5px',
+														backgroundColor: 'red',
+														color: 'white',
+														fontSize: '.8em',
+														width: '18px',
+														height: '18px',
+														borderRadius: '50%',
+														display: 'flex',
+														justifyContent: 'center',
+														alignItems: 'center',
+														fontWeight: 'bold',
+														padding: '1px',
+													}}
+												>
+													{notifications.length}
+												</span>
+											)}
 									</Link>
 								</li>
+
 								<li>
 									<Link to={'/logout'} title="Logout">
 										<i className="fa-solid fa-right-from-bracket"></i>
@@ -95,29 +127,31 @@ function App() {
 							<PostContext.Provider value={postValue}>
 								<QueryClientProvider client={queryClient}>
 									<ProfileContext.Provider value={profileValue}>
-										<Routes>
-											<Route path="/login" element={<Login />}></Route>
-											<Route path="/signup" element={<Signup />}></Route>
-											<Route path="/home" element={<Home />}></Route>
-											<Route path="/post/:id" element={<Thread />}></Route>
-											<Route
-												path="/user/:username"
-												element={<Profile />}
-											></Route>
-											<Route
-												path="/friendships"
-												element={<Friendships />}
-											></Route>
-											<Route
-												path="/user/update"
-												element={<UpdateProfile />}
-											></Route>
-											<Route path="/logout" element={<Logout />}></Route>
-											<Route
-												path="/notifications"
-												element={<Notifications />}
-											></Route>
-										</Routes>
+										<NotificationContext.Provider value={notifValue}>
+											<Routes>
+												<Route path="/login" element={<Login />}></Route>
+												<Route path="/signup" element={<Signup />}></Route>
+												<Route path="/home" element={<Home />}></Route>
+												<Route path="/post/:id" element={<Thread />}></Route>
+												<Route
+													path="/user/:username"
+													element={<Profile />}
+												></Route>
+												<Route
+													path="/friendships"
+													element={<Friendships />}
+												></Route>
+												<Route
+													path="/user/update"
+													element={<UpdateProfile />}
+												></Route>
+												<Route path="/logout" element={<Logout />}></Route>
+												<Route
+													path="/notifications"
+													element={<Notifications />}
+												></Route>
+											</Routes>
+										</NotificationContext.Provider>
 									</ProfileContext.Provider>
 								</QueryClientProvider>
 							</PostContext.Provider>

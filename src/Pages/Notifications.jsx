@@ -4,12 +4,14 @@ import { useQuery } from '@tanstack/react-query';
 import { SocketContext } from '../Context/socketContext';
 import { useNavigate } from 'react-router-dom';
 import style from './styles/Notifications.module.css';
+import NotificationContext from '../Context/notificationContext';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 export default function Notifications() {
 	const { currentUser } = useContext(UserContext);
 	const { socket } = useContext(SocketContext);
 	const navigate = useNavigate();
+	const { setNotifs } = useContext(NotificationContext);
 
 	useEffect(() => {
 		if (!currentUser?.user?.id) {
@@ -20,6 +22,7 @@ export default function Notifications() {
 
 		if (socket && currentUser?.user?.id) {
 			socket.emit('mark_notifications_read', currentUser.user.id);
+			setNotifs([]);
 		}
 	}, [socket, currentUser]);
 
