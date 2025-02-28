@@ -15,11 +15,20 @@
 	align-items: center;
 }
 
+.profile:hover {
+	cursor: pointer;
+}
+
 .profile > img {
 	width: 5em;
 	height: 5em;
 	border-radius: 50%;
 	object-fit: cover;
+}
+
+.profile > img:hover {
+	outline: 3px solid gray;
+	outline-offset: 5px;
 }
 
 .profile > p {
