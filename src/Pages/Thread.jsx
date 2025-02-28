@@ -96,6 +96,7 @@ export default function Thread() {
 							key={comment.id}
 							postID={postVal}
 							setProfile={setProfile}
+							socket={socket}
 						/>
 					))
 				) : isLoading ? (

@@ -6,7 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import style from './styles/Comment.module.css';
 import { format } from 'date-fns';
 
-export default function Comment({ data, currentUser, postID, setProfile }) {
+export default function Comment({
+	data,
+	currentUser,
+	postID,
+	setProfile,
+	socket,
+}) {
 	const [updateStatus, setUpdateStatus] = useState(false);
 	const navigate = useNavigate();
 
@@ -40,7 +46,12 @@ export default function Comment({ data, currentUser, postID, setProfile }) {
 						dataType={'comment'}
 					/>
 				)}
-				<LikeButton postId={data.id} user={currentUser} dataType={'comment'} />
+				<LikeButton
+					postId={data.id}
+					user={currentUser}
+					dataType={'comment'}
+					socket={socket}
+				/>
 				{
 					//although it says POSTID, it is receiving the COMMENTID
 				}
