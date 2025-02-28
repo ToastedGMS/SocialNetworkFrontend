@@ -1,0 +1,20 @@
+.container {
+	color: white;
+	display: flex;
+	flex-direction: column;
+}
+
+.notif {
+	border: 2px solid gray;
+	font-size: 2em;
+	padding: 1em;
+	border-radius: 25px;
+	margin: 0;
+	margin-bottom: 1em;
+}
+
+.notif:hover {
+	cursor: pointer;
+	outline: 3px solid gray;
+	outline-offset: 2px;
+}

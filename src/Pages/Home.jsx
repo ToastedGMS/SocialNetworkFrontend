@@ -106,7 +106,9 @@ export default function Home() {
 						/>
 					))
 				) : (
-					<p>Add some friends to start seeing posts!</p>
+					<p style={{ color: 'white', fontSize: '2em', fontWeight: 'bold' }}>
+						Add some friends to start seeing posts!
+					</p>
 				)}
 			</div>
 		</>

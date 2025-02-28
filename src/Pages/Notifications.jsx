@@ -3,6 +3,7 @@ import UserContext from '../Context/userContext';
 import { useQuery } from '@tanstack/react-query';
 import { SocketContext } from '../Context/socketContext';
 import { useNavigate } from 'react-router-dom';
+import style from './styles/Notifications.module.css';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 export default function Notifications() {
@@ -54,67 +55,67 @@ export default function Notifications() {
 	}
 	return (
 		<>
-			<div>
-				<h2>Unread Notifications</h2>
-				{data.unreadNotifs.map((notification) => {
-					return (
-						<div
-							style={{ border: '1px solid black' }}
-							key={notification.id}
-							onClick={async () => {
-								const data = await fetch(
-									`${serverUrl}/api/posts/read?id=${notification.contentID}&authorID=${currentUser.user.id}`
-								);
+			<div className={style.container}>
+				<div>
+					<h2>Unread Notifications</h2>
+					{data.unreadNotifs.map((notification) => {
+						return (
+							<div
+								key={notification.id}
+								onClick={async () => {
+									const data = await fetch(
+										`${serverUrl}/api/posts/read?id=${notification.contentID}&authorID=${currentUser.user.id}`
+									);
 
-								if (!data.ok) {
-									const errorResponse = await data.json();
-									throw new Error(errorResponse.error || 'Error fetching');
-								}
+									if (!data.ok) {
+										const errorResponse = await data.json();
+										throw new Error(errorResponse.error || 'Error fetching');
+									}
 
-								const res = await data.json();
+									const res = await data.json();
 
-								navigate(`/post/${notification.contentID}`, {
-									state: { postData: res },
-								});
-							}}
-						>
-							<p>
-								{notification.senderName} {notification.type}
-							</p>
-						</div>
-					);
-				})}
-			</div>
-			<div>
-				<h2>Read Notifications</h2>
-				{data.readNotifs.map((notification) => {
-					return (
-						<div
-							style={{ border: '1px solid black' }}
-							key={notification.id}
-							onClick={async () => {
-								const data = await fetch(
-									`${serverUrl}/api/posts/read?id=${notification.contentID}&authorID=${currentUser.user.id}`
-								);
+									navigate(`/post/${notification.contentID}`, {
+										state: { postData: res },
+									});
+								}}
+							>
+								<p className={style.notif}>
+									{notification.senderName} {notification.type}
+								</p>
+							</div>
+						);
+					})}
+				</div>
+				<div>
+					<h2>Read Notifications</h2>
+					{data.readNotifs.map((notification) => {
+						return (
+							<div
+								key={notification.id}
+								onClick={async () => {
+									const data = await fetch(
+										`${serverUrl}/api/posts/read?id=${notification.contentID}&authorID=${currentUser.user.id}`
+									);
 
-								if (!data.ok) {
-									const errorResponse = await data.json();
-									throw new Error(errorResponse.error || 'Error fetching');
-								}
+									if (!data.ok) {
+										const errorResponse = await data.json();
+										throw new Error(errorResponse.error || 'Error fetching');
+									}
 
-								const res = await data.json();
+									const res = await data.json();
 
-								navigate(`/post/${notification.contentID}`, {
-									state: { postData: res },
-								});
-							}}
-						>
-							<p>
-								{notification.senderName} {notification.type}
-							</p>
-						</div>
-					);
-				})}
+									navigate(`/post/${notification.contentID}`, {
+										state: { postData: res },
+									});
+								}}
+							>
+								<p className={style.notif}>
+									{notification.senderName} {notification.type}
+								</p>
+							</div>
+						);
+					})}
+				</div>
 			</div>
 		</>
 	);
