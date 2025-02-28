@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { useUpdatePost } from '../Hooks/useUpdatePost';
 import { useUpdateComment } from '../Hooks/useUpdateComment';
 import ErrorMessage from './ErrorMessage';
+import style from './styles/UpdateContent.module.css';
 
 export default function UpdateContent({
 	data,
@@ -17,12 +18,6 @@ export default function UpdateContent({
 	const { mutate: updatePost } = useUpdatePost();
 	const { mutate: updateComment } = useUpdateComment();
 
-	// Function to validate image URL
-	const validateImageUrl = (url) => {
-		const regex = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|bmp|svg))$/i;
-		return regex.test(url);
-	};
-
 	const handleUpdate = () => {
 		if (!content.trim()) {
 			setError("Can't do that! Content cannot be empty.");
@@ -32,12 +27,6 @@ export default function UpdateContent({
 		if (content === initialContent && image === initialImage) {
 			setError('Unable to update, no changes made');
 			return;
-		}
-
-		// Validate and set the image
-		let validImage = null;
-		if (image && validateImageUrl(image)) {
-			validImage = image; // If valid, keep the image URL
 		}
 
 		if (dataType === 'post') {
@@ -69,27 +58,18 @@ export default function UpdateContent({
 				placeholder="Update your content here..."
 				value={content}
 				onChange={(e) => setContent(e.target.value)}
+				className={style.textInput}
 				style={{ resize: 'none' }}
 			></textarea>
 
-			{dataType === 'post' && (
-				<div>
-					<label htmlFor="image">Image URL:</label>
-					<input
-						type="text"
-						id="image"
-						name="image"
-						value={image}
-						onChange={(e) => setImage(e.target.value)}
-						placeholder="Optional image URL"
-					/>
-				</div>
-			)}
-
-			<div>
+			<div className={style.action}>
 				{errorMessage && <ErrorMessage error={errorMessage} />}
-				<button onClick={handleUpdate}>Update</button>
-				<button onClick={() => setUpdateStatus(false)}>Cancel</button>
+				<button className={style.button} onClick={handleUpdate}>
+					Update
+				</button>
+				<button className={style.button} onClick={() => setUpdateStatus(false)}>
+					Cancel
+				</button>
 			</div>
 		</div>
 	);

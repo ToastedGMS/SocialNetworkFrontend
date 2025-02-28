@@ -61,31 +61,39 @@ export default function Post({
 					/>
 				)}
 
-				<LikeButton
-					postId={data.id}
-					user={currentUser}
-					author={data.author.id}
-					dataType={'post'}
-					socket={socket}
-				/>
-				{!hideComments && <span>{data.likeCount}</span>}
-
-				{!hideComments && (
+				{!updateStatus && (
 					<>
-						<CommentBtn postId={data.id} setPostVal={setPostVal} />
-						<span>{data.commentCount}</span>
+						<LikeButton
+							postId={data.id}
+							user={currentUser}
+							author={data.author.id}
+							dataType={'post'}
+							socket={socket}
+						/>
+						{!hideComments && <span>{data.likeCount}</span>}
 
-						{data.author.id === currentUser.user.id && (
+						{!hideComments && (
 							<>
-								<DeleteBtn id={data.id} user={currentUser} dataType={'post'} />
-								<button
-									onClick={() => setUpdateStatus(true)}
-									className={[
-										style.button,
-										'fa-solid',
-										'fa-pen-to-square',
-									].join(' ')}
-								></button>
+								<CommentBtn postId={data.id} setPostVal={setPostVal} />
+								<span>{data.commentCount}</span>
+
+								{data.author.id === currentUser.user.id && (
+									<>
+										<DeleteBtn
+											id={data.id}
+											user={currentUser}
+											dataType={'post'}
+										/>
+										<button
+											onClick={() => setUpdateStatus(true)}
+											className={[
+												style.button,
+												'fa-solid',
+												'fa-pen-to-square',
+											].join(' ')}
+										></button>
+									</>
+								)}
 							</>
 						)}
 					</>

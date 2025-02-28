@@ -46,29 +46,35 @@ export default function Comment({
 						dataType={'comment'}
 					/>
 				)}
-				<LikeButton
-					postId={data.id}
-					user={currentUser}
-					dataType={'comment'}
-					socket={socket}
-				/>
-				{
-					//although it says POSTID, it is receiving the COMMENTID
-				}
-				{data.author.id === currentUser.user.id && (
+				{!updateStatus && (
 					<>
-						<DeleteBtn
-							id={data.id}
+						<LikeButton
+							postId={data.id}
 							user={currentUser}
 							dataType={'comment'}
-							postId={postID}
+							socket={socket}
 						/>
-						<button
-							className={[style.button, 'fa-solid', 'fa-pen-to-square'].join(
-								' '
-							)}
-							onClick={() => setUpdateStatus(true)}
-						></button>
+						{
+							//although it says POSTID, it is receiving the COMMENTID
+						}
+						{data.author.id === currentUser.user.id && (
+							<>
+								<DeleteBtn
+									id={data.id}
+									user={currentUser}
+									dataType={'comment'}
+									postId={postID}
+								/>
+								<button
+									className={[
+										style.button,
+										'fa-solid',
+										'fa-pen-to-square',
+									].join(' ')}
+									onClick={() => setUpdateStatus(true)}
+								></button>
+							</>
+						)}
 					</>
 				)}
 			</div>
