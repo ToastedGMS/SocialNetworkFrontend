@@ -6,6 +6,7 @@ import ErrorMessage from '../Reusable/ErrorMessage';
 import FormBtn from '../Reusable/FormBtn';
 import { useNavigate } from 'react-router-dom';
 import ErrorContext from '../Context/errorContext';
+import style from './styles/Login.module.css';
 
 export default function Login() {
 	const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -66,35 +67,37 @@ export default function Login() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<div>
-				<label htmlFor="identification">Username or email:</label>
-				<input
-					type="text"
-					name="identification"
-					id="identification"
-					value={formData.identification}
-					onChange={handleChange}
-					required
-				/>
-			</div>
-
-			<div>
-				<label htmlFor="password">Password:</label>
-				<input
-					type="password"
-					name="password"
-					id="password"
-					value={formData.password}
-					onChange={handleChange}
-					required
-					minLength={8}
-				/>
-				{error && <ErrorMessage error={error} />}
-			</div>
-			<div>
-				<FormBtn mutationLoading={mutation.isLoading} formType={'Login'} />
-			</div>
-		</form>
+		<div className={style.container}>
+			<form className={style.form} onSubmit={handleSubmit}>
+				<h1>Login</h1>
+				<div>
+					<label htmlFor="identification">Username or email:</label>
+					<input
+						type="text"
+						name="identification"
+						id="identification"
+						value={formData.identification}
+						onChange={handleChange}
+						required
+					/>
+				</div>
+				<div>
+					<label htmlFor="password">Password:</label>
+					<input
+						type="password"
+						name="password"
+						id="password"
+						value={formData.password}
+						onChange={handleChange}
+						required
+						minLength={8}
+					/>
+					{error && <ErrorMessage error={error} />}
+				</div>
+				<div>
+					<FormBtn mutationLoading={mutation.isLoading} formType={'Login'} />
+				</div>
+			</form>
+		</div>
 	);
 }

@@ -4,6 +4,7 @@ import ErrorMessage from '../Reusable/ErrorMessage';
 import FormBtn from '../Reusable/FormBtn';
 import ErrorContext from '../Context/errorContext';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
+import style from './styles/Signup.module.css';
 
 export default function Signup() {
 	const { error, setError } = useContext(ErrorContext);
@@ -63,57 +64,60 @@ export default function Signup() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<div>
-				<label htmlFor="username">Username:</label>
-				<input
-					type="text"
-					name="username"
-					id="username"
-					value={formData.username}
-					onChange={handleChange}
-					required
-				/>
-			</div>
-			<div>
-				<label htmlFor="email">Email:</label>
-				<input
-					type="email"
-					name="email"
-					id="email"
-					value={formData.email}
-					onChange={handleChange}
-					required
-				/>
-			</div>
-			<div>
-				<label htmlFor="password">Password:</label>
-				<input
-					type="password"
-					name="password"
-					id="password"
-					value={formData.password}
-					onChange={handleChange}
-					required
-					minLength={8}
-				/>
-			</div>
-			<div>
-				<label htmlFor="confirmPassword">Confirm Password:</label>
-				<input
-					type="password"
-					name="confirmPassword"
-					id="confirmPassword"
-					value={formData.confirmPassword}
-					onChange={handleChange}
-					required
-					minLength={8}
-				/>
-				{error && <ErrorMessage error={error} />}
-			</div>
-			<div>
-				<FormBtn mutationLoading={mutation.isLoading} formType={'Signup'} />
-			</div>
-		</form>
+		<div className={style.container}>
+			<form className={style.form} onSubmit={handleSubmit}>
+				<h1>Signup</h1>
+				<div>
+					<label htmlFor="username">Username:</label>
+					<input
+						type="text"
+						name="username"
+						id="username"
+						value={formData.username}
+						onChange={handleChange}
+						required
+					/>
+				</div>
+				<div>
+					<label htmlFor="email">Email:</label>
+					<input
+						type="email"
+						name="email"
+						id="email"
+						value={formData.email}
+						onChange={handleChange}
+						required
+					/>
+				</div>
+				<div>
+					<label htmlFor="password">Password:</label>
+					<input
+						type="password"
+						name="password"
+						id="password"
+						value={formData.password}
+						onChange={handleChange}
+						required
+						minLength={8}
+					/>
+				</div>
+				<div>
+					<label htmlFor="confirmPassword">Confirm Password:</label>
+					<input
+						type="password"
+						name="confirmPassword"
+						id="confirmPassword"
+						value={formData.confirmPassword}
+						onChange={handleChange}
+						required
+						minLength={8}
+					/>
+					{error && <ErrorMessage error={error} />}
+				</div>
+				<div>
+					<FormBtn mutationLoading={mutation.isLoading} formType={'Signup'} />
+				</div>
+			</form>
+		</div>
 	);
 }

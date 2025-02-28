@@ -1,4 +1,11 @@
-const LikeButton = ({
+import { useEffect, useState } from 'react';
+import { useLikePost } from '../Hooks/useLikePost';
+import { useDislikePost } from '../Hooks/useDislikePost';
+import style from './styles/LikeBtn.module.css';
+
+const serverUrl = import.meta.env.VITE_SERVER_URL;
+
+export default function LikeButton({
 	postId,
 	user,
 	dataType,
@@ -6,7 +13,7 @@ const LikeButton = ({
 	socket,
 	likeCount,
 	setLikeCount,
-}) => {
+}) {
 	const { mutate: likePost } = useLikePost();
 	const { mutate: dislikePost } = useDislikePost();
 	const [isLiked, setIsLiked] = useState(false);
@@ -75,4 +82,4 @@ const LikeButton = ({
 			}}
 		></button>
 	);
-};
+}
