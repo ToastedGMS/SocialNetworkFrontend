@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import AcceptFriendBtn from './AcceptFriendBtn';
 import { useNavigate } from 'react-router-dom';
+import style from './styles/FriendCard.module.css';
 
 export default function FriendCard({
 	currentUser,
@@ -13,7 +14,7 @@ export default function FriendCard({
 		<>
 			{currentUser.user.id === friendship.senderId && (
 				<div
-					style={{ display: 'flex', alignItems: 'center' }}
+					className={style.card}
 					onClick={() => {
 						setProfile(friendship.receiver);
 						navigate(`/user/${friendship.receiver.username}`);
@@ -22,25 +23,20 @@ export default function FriendCard({
 					<img
 						src={friendship.receiver.profilePic}
 						alt="User profile picture"
-						style={{ width: '2em', borderRadius: '50%' }}
 					/>
-					<p style={{ marginLeft: '10px' }}>{friendship.receiver.username}</p>
+					<p>{friendship.receiver.username}</p>
 				</div>
 			)}
 			{currentUser.user.id === friendship.receiverId && (
 				<div
-					style={{ display: 'flex', alignItems: 'center' }}
+					className={style.card}
 					onClick={() => {
 						setProfile(friendship.sender);
 						navigate(`/user/${friendship.sender.username}`);
 					}}
 				>
-					<img
-						src={friendship.sender.profilePic}
-						alt="User profile picture"
-						style={{ width: '2em', borderRadius: '50%' }}
-					/>
-					<p style={{ marginLeft: '10px' }}>{friendship.sender.username}</p>
+					<img src={friendship.sender.profilePic} alt="User profile picture" />
+					<p>{friendship.sender.username}</p>
 					{status === 'pending' && (
 						<AcceptFriendBtn
 							currentUser={currentUser}

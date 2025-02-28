@@ -5,6 +5,7 @@ import ErrorContext from '../Context/errorContext';
 import { useQuery } from '@tanstack/react-query';
 import FriendCard from '../Reusable/FriendCard';
 import ProfileContext from '../Context/profileContext';
+import styles from './styles/Friendships.module.css';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -54,37 +55,42 @@ export default function Friendships() {
 
 	return (
 		<>
-			<div>
+			<div className={styles.container}>
 				<div>
-					<p>Pending Friendships</p>
-					{data.pendingFriendships && data.pendingFriendships.length !== 0 ? (
-						data.pendingFriendships.map((friendship) => (
-							<FriendCard
-								key={friendship.id}
-								currentUser={currentUser}
-								friendship={friendship}
-								status={'pending'}
-								setProfile={setProfile}
-							/>
-						))
-					) : (
-						<p>No pending friend requests.</p>
-					)}
+					<h2>Pending Friendships</h2>
+					<div className={styles.cardBox}>
+						{data.pendingFriendships && data.pendingFriendships.length !== 0 ? (
+							data.pendingFriendships.map((friendship) => (
+								<FriendCard
+									key={friendship.id}
+									currentUser={currentUser}
+									friendship={friendship}
+									status={'pending'}
+									setProfile={setProfile}
+								/>
+							))
+						) : (
+							<p>No pending friend requests.</p>
+						)}
+					</div>
 				</div>
 				<div>
-					<p>Accepted Friendships</p>
-					{data.acceptedFriendships && data.acceptedFriendships.length !== 0 ? (
-						data.acceptedFriendships.map((friendship) => (
-							<FriendCard
-								key={friendship.id}
-								currentUser={currentUser}
-								friendship={friendship}
-								setProfile={setProfile}
-							/>
-						))
-					) : (
-						<p>No accepted friend requests.</p>
-					)}
+					<h2>Accepted Friendships</h2>
+					<div className={styles.cardBox}>
+						{data.acceptedFriendships &&
+						data.acceptedFriendships.length !== 0 ? (
+							data.acceptedFriendships.map((friendship) => (
+								<FriendCard
+									key={friendship.id}
+									currentUser={currentUser}
+									friendship={friendship}
+									setProfile={setProfile}
+								/>
+							))
+						) : (
+							<p>No accepted friend requests.</p>
+						)}
+					</div>
 				</div>
 			</div>
 		</>
