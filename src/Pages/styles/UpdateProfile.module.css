@@ -1,0 +1,85 @@
+.currentProfile {
+	display: flex;
+	flex-direction: column;
+	color: white;
+	margin: 1em auto;
+	text-align: center;
+}
+
+.currentProfile img {
+	margin-top: 1em;
+	width: 20em;
+	height: 20em;
+	border-radius: 50%;
+	object-fit: cover;
+	display: block;
+	outline: 5px solid white;
+	outline-offset: 1em;
+}
+
+.currentProfile :nth-child(2) {
+	color: white;
+	font-size: 2em;
+	font-weight: 600;
+	margin-bottom: 0%;
+}
+
+.currentProfile :nth-child(3) {
+	color: white;
+	font-size: 1em;
+}
+
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.form {
+	display: flex;
+	color: white;
+	flex-direction: column;
+	text-align: center;
+	border: 2px solid gray;
+	max-width: fit-content;
+	padding: 2em;
+	border-radius: 15px;
+	margin: 1em auto;
+}
+
+.form label {
+	font-weight: 600;
+	font-size: 1.2em;
+}
+
+.form input {
+	border-radius: 15px;
+	padding: 0.5em;
+}
+
+.form div {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1em;
+}
+
+.container button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgb(83, 83, 236);
+	color: white;
+	font-size: 1em;
+	padding: 10px 20px;
+	border-radius: 50px;
+	border: none;
+	cursor: pointer;
+	font-weight: 700;
+	outline: 2px solid rgba(83, 83, 236, 0.4);
+	outline-offset: 3px;
+	margin-bottom: 1em;
+}
+
+.container button:hover {
+	outline: 4px solid rgba(83, 83, 236, 0.8);
+}
