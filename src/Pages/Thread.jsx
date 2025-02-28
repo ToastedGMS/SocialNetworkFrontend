@@ -84,7 +84,7 @@ export default function Thread() {
 						profileClick={true}
 					/>
 				) : (
-					<p>Loading...</p>
+					<p style={{ color: 'white' }}>Loading...</p>
 				)}
 			</div>
 			<div>
@@ -99,9 +99,9 @@ export default function Thread() {
 						/>
 					))
 				) : isLoading ? (
-					<p>Loading comments...</p>
+					<p style={{ color: 'white' }}>Loading comments...</p>
 				) : (
-					<p>No comments yet...</p>
+					<p style={{ color: 'white' }}>No comments yet...</p>
 				)}
 			</div>
 			<div>

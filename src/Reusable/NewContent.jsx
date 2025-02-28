@@ -96,7 +96,7 @@ export default function NewContent({
 	return (
 		<div className={style.container}>
 			{dataType === 'comment' ? (
-				<>
+				<div className={style.content}>
 					<textarea
 						className={style.textInput}
 						name="input"
@@ -109,6 +109,7 @@ export default function NewContent({
 					></textarea>
 					{errorMessage && <ErrorMessage error={errorMessage} />}
 					<button
+						className={style.postBtn}
 						onClick={() => {
 							if (!commentContent.trim()) {
 								setError("Can't post empty comment!");
@@ -120,7 +121,7 @@ export default function NewContent({
 					>
 						Post
 					</button>
-				</>
+				</div>
 			) : (
 				<>
 					<div className={style.content}>

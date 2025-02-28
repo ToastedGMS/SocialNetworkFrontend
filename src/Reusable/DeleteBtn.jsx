@@ -22,7 +22,7 @@ const DeleteBtn = ({ id, user, dataType, postId }) => {
 				></button>
 			) : (
 				<button
-					className={style.button}
+					className={[style.button, 'fa-solid', 'fa-trash'].join(' ')}
 					onClick={() => {
 						const isConfirmed = window.confirm(
 							'Are you sure you want to delete this comment? This action is irreversible!'
