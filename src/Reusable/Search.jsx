@@ -67,7 +67,7 @@ export default function Search({ currentUser, setProfile }) {
 				style={{ resize: 'none' }}
 			></textarea>
 			{loading ? (
-				<p>Loading...</p>
+				<p className={styles.text}>Loading...</p>
 			) : (
 				<div>
 					{results.length > 0 ? (
@@ -90,7 +90,7 @@ export default function Search({ currentUser, setProfile }) {
 							))}
 						</ul>
 					) : search.trim() ? (
-						<p>No users found.</p>
+						<p className={styles.text}>No users found.</p>
 					) : null}
 				</div>
 			)}

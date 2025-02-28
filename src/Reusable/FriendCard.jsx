@@ -21,6 +21,7 @@ export default function FriendCard({
 					}}
 				>
 					<img
+						className={style.cardImage}
 						src={friendship.receiver.profilePic}
 						alt="User profile picture"
 					/>
@@ -35,7 +36,11 @@ export default function FriendCard({
 						navigate(`/user/${friendship.sender.username}`);
 					}}
 				>
-					<img src={friendship.sender.profilePic} alt="User profile picture" />
+					<img
+						className={style.cardImage}
+						src={friendship.sender.profilePic}
+						alt="User profile picture"
+					/>
 					<p>{friendship.sender.username}</p>
 					{status === 'pending' && (
 						<AcceptFriendBtn

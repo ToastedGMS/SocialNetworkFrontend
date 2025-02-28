@@ -8,7 +8,7 @@
 	padding: 1em;
 }
 
-img {
+.cardImage {
 	width: 3em;
 	height: 3em;
 	border-radius: 50%;
