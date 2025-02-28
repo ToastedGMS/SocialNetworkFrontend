@@ -81,6 +81,8 @@ export default function UpdateProfile() {
 						name="username"
 						id="username"
 						value={usernameVal}
+						minLength={1}
+						maxLength={64}
 						onChange={(e) => setUsernameVal(e.target.value)}
 					/>
 
@@ -90,6 +92,7 @@ export default function UpdateProfile() {
 						name="bio"
 						id="bio"
 						value={bioVal}
+						maxLength={240}
 						onChange={(e) => setBioVal(e.target.value)}
 					/>
 

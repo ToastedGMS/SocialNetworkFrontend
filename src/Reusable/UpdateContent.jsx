@@ -59,6 +59,8 @@ export default function UpdateContent({
 				value={content}
 				onChange={(e) => setContent(e.target.value)}
 				className={style.textInput}
+				maxLength={1000}
+				minLength={1}
 				style={{ resize: 'none' }}
 			></textarea>
 

@@ -104,6 +104,8 @@ export default function NewContent({
 						cols="80"
 						rows="3"
 						placeholder="Add a comment..."
+						maxLength={1000}
+						minLength={1}
 						value={commentContent}
 						onChange={(e) => setCommentContent(e.target.value)}
 					></textarea>
@@ -133,6 +135,8 @@ export default function NewContent({
 							cols="80"
 							rows="3"
 							placeholder="What's on your mind?"
+							maxLength={1000}
+							minLength={1}
 							value={postContent}
 							onChange={(e) => setPostContent(e.target.value)}
 						></textarea>

@@ -73,6 +73,7 @@ export default function Signup() {
 						type="text"
 						name="username"
 						id="username"
+						minLength={1}
 						value={formData.username}
 						onChange={handleChange}
 						required
