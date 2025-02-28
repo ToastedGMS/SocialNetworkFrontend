@@ -1,0 +1,20 @@
+.container {
+	display: flex;
+	align-items: center;
+	gap: 1em;
+	margin-bottom: 1em;
+	border: 1px solid gray;
+	border-radius: 25px;
+	padding: 1em;
+}
+
+img {
+	width: 3em;
+	height: 3em;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.username {
+	margin: 0%;
+}

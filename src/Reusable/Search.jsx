@@ -74,11 +74,6 @@ export default function Search({ currentUser, setProfile }) {
 						<ul>
 							{results.map((user) => (
 								<div
-									style={{
-										border: '1px solid black',
-										padding: '10px',
-										borderRadius: '5px',
-									}}
 									onClick={() => {
 										setProfile(user);
 										navigate(`/user/${user.username}`);

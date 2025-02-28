@@ -1,15 +1,11 @@
-import { useEffect, useState } from 'react';
+import style from './styles/UserSearchCard.module.css';
 
 export default function UserSearchCard({ user, currentUser }) {
 	return (
 		<>
-			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<img
-					src={user.profilePic}
-					alt="User profile picture"
-					style={{ width: '2em', borderRadius: '50%' }}
-				/>
-				<p style={{ marginLeft: '10px' }}>{user.username}</p>
+			<div className={style.container}>
+				<img src={user.profilePic} alt="User profile picture" />
+				<p className={style.username}>{user.username}</p>
 			</div>
 		</>
 	);
