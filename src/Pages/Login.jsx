@@ -114,15 +114,16 @@ export default function Login() {
 				<div>
 					<FormBtn mutationLoading={mutation.isLoading} formType={'Login'} />
 				</div>
+				<p style={{ marginTop: '0' }}>Or</p>
+				<button
+					onClick={() => {
+						setIsGuest(true);
+						navigate('/home');
+					}}
+				>
+					Login as Guest
+				</button>
 			</form>
-			<button
-				onClick={() => {
-					setIsGuest(true);
-					navigate('/home');
-				}}
-			>
-				Login as Guest
-			</button>
 		</div>
 	);
 }
