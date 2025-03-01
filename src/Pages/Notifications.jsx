@@ -77,9 +77,11 @@ export default function Notifications() {
 
 									const res = await data.json();
 
-									navigate(`/post/${notification.contentID}`, {
-										state: { postData: res },
-									});
+									setTimeout(() => {
+										navigate(`/post/${notification.contentID}`, {
+											state: { postData: res },
+										});
+									}, 1000);
 								}}
 							>
 								<p className={style.notif}>
