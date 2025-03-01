@@ -104,7 +104,12 @@ export default function UpdateProfile() {
 						<div>
 							<p>{uploadResponse.message}</p>
 							<p>Image preview:</p>
-							<img src={uploadResponse.fileUrl} alt="Uploaded preview" />
+							<img
+								src={uploadResponse.fileUrl}
+								alt="Uploaded preview"
+								width={'200px'}
+								style={{ display: 'block', margin: '1em auto' }}
+							/>
 						</div>
 					)}
 
