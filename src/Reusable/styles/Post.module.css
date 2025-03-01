@@ -35,6 +35,7 @@
 	font-weight: 800;
 	font-size: 1.5em;
 	margin-left: 0.5em;
+	flex-wrap: wrap;
 }
 
 .content {

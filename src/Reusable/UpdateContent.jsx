@@ -33,7 +33,7 @@ export default function UpdateContent({
 			updatePost({
 				postID: data.id,
 				content: content,
-				image: validImage,
+				image: initialImage,
 				user: user,
 			});
 		} else if (dataType === 'comment') {

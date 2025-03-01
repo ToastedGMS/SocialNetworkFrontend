@@ -107,7 +107,6 @@ export default function Home() {
 				dataType={'post'}
 				isGuest={isGuest}
 			/>
-			{message && <p style={{ color: 'white' }}>{message}</p>}
 			<div>
 				{data && data.length !== 0 ? (
 					data.map((post) => (
