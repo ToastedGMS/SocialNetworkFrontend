@@ -9,6 +9,7 @@ import Post from '../Reusable/Post';
 import FriendBtn from '../Reusable/FriendBtn';
 import { SocketContext } from '../Context/socketContext';
 import style from './styles/Profile.module.css';
+import GuestContext from '../Context/guestContext';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -18,6 +19,7 @@ export default function Profile() {
 	const { profile } = useContext(ProfileContext);
 	const { setPostVal } = useContext(PostContext);
 	const { socket } = useContext(SocketContext);
+	const { isGuest } = useContext(GuestContext);
 
 	const navigate = useNavigate();
 
@@ -84,6 +86,7 @@ export default function Profile() {
 
 	async function getUserPosts() {
 		if (!profile?.id) return []; // Prevent execution with invalid profile
+		if (isGuest) return [];
 
 		const response = await fetch(
 			`${serverUrl}/api/posts/read/?authorID=${profile.id}`,
@@ -129,11 +132,18 @@ export default function Profile() {
 			)}
 			<div className={style.action}>
 				{profile?.id === currentUser?.user?.id ? (
-					<button onClick={() => navigate('/user/update')}>
+					<button
+						disabled={isGuest ? true : false}
+						onClick={() => navigate('/user/update')}
+					>
 						Update Profile
 					</button>
 				) : friendStatus === null ? (
-					<FriendBtn currentUser={currentUser} receiverId={profile?.id} />
+					<FriendBtn
+						currentUser={currentUser}
+						receiverId={profile?.id}
+						isGuest={isGuest}
+					/>
 				) : friendStatus === 'Accepted' ? (
 					<p>Friends</p>
 				) : (

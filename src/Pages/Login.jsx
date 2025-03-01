@@ -7,6 +7,7 @@ import FormBtn from '../Reusable/FormBtn';
 import { useNavigate } from 'react-router-dom';
 import ErrorContext from '../Context/errorContext';
 import style from './styles/Login.module.css';
+import GuestContext from '../Context/guestContext';
 
 export default function Login() {
 	const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -16,6 +17,22 @@ export default function Login() {
 		password: '',
 	});
 	const navigate = useNavigate();
+
+	const { isGuest, setIsGuest } = useContext(GuestContext);
+
+	useEffect(() => {
+		if (isGuest) {
+			setCurrentUser({
+				user: {
+					id: 9999999999999,
+					email: 'guest@example.com',
+					username: 'guest',
+					bio: null,
+					profilePic: '/default-profile-image.png',
+				},
+			});
+		}
+	}, [isGuest]);
 
 	const mutation = useMutation({
 		mutationFn: async (data) => {
@@ -98,6 +115,14 @@ export default function Login() {
 					<FormBtn mutationLoading={mutation.isLoading} formType={'Login'} />
 				</div>
 			</form>
+			<button
+				onClick={() => {
+					setIsGuest(true);
+					navigate('/home');
+				}}
+			>
+				Login as Guest
+			</button>
 		</div>
 	);
 }

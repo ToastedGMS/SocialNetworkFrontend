@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useCreateFriendship } from '../Hooks/useCreateFriendship';
 
-export default function FriendBtn({ currentUser, receiverId }) {
+export default function FriendBtn({ currentUser, receiverId, isGuest }) {
 	const [sentRequest, setSentRequest] = useState(false);
 	const { mutate: createFriendship } = useCreateFriendship();
 
@@ -11,6 +11,7 @@ export default function FriendBtn({ currentUser, receiverId }) {
 				<p>Request Sent</p>
 			) : (
 				<button
+					disabled={isGuest ? true : false}
 					onClick={() => {
 						createFriendship({ user: currentUser, receiverId });
 						setSentRequest(true);

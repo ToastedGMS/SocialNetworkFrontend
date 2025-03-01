@@ -9,6 +9,8 @@ import Post from '../Reusable/Post';
 import NewContent from '../Reusable/NewContent';
 import { SocketContext } from '../Context/socketContext';
 import NotificationContext from '../Context/notificationContext';
+import GuestContext from '../Context/guestContext';
+import guestPosts from '../guestPosts';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -20,6 +22,7 @@ export default function Home() {
 	const { socket } = useContext(SocketContext);
 	const { setNotifs } = useContext(NotificationContext);
 	const [message, setMessage] = useState(null);
+	const { isGuest } = useContext(GuestContext);
 
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
@@ -54,6 +57,9 @@ export default function Home() {
 	}, [currentUser, setError, navigate, socket]);
 
 	const generateFeed = async () => {
+		if (isGuest) {
+			return guestPosts;
+		}
 		const response = await fetch(
 			`${serverUrl}/api/posts/feed/${currentUser.user.id}`,
 			{
@@ -76,22 +82,32 @@ export default function Home() {
 		queryFn: generateFeed,
 	});
 
-	if (isLoading) return <p>Loading...</p>;
+	if (isLoading) return <p style={{ color: 'white' }}>Loading...</p>;
 	if (error) {
 		setError(error.message);
 		return (
 			<>
-				<NewContent currentUser={currentUser} postID={null} dataType={'post'} />
+				<NewContent
+					currentUser={currentUser}
+					postID={null}
+					dataType={'post'}
+					isGuest={isGuest}
+				/>
 
-				<p>Error: {error.message}</p>
+				<p style={{ color: 'white' }}>Error: {error.message}</p>
 			</>
 		);
 	}
 
 	return (
 		<>
-			<NewContent currentUser={currentUser} postID={null} dataType={'post'} />
-			{message && <p>{message}</p>}
+			<NewContent
+				currentUser={currentUser}
+				postID={null}
+				dataType={'post'}
+				isGuest={isGuest}
+			/>
+			{message && <p style={{ color: 'white' }}>{message}</p>}
 			<div>
 				{data && data.length !== 0 ? (
 					data.map((post) => (
@@ -103,6 +119,7 @@ export default function Home() {
 							key={post.id}
 							profileClick={true}
 							socket={socket}
+							isGuest={isGuest}
 						/>
 					))
 				) : (

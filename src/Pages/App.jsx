@@ -9,6 +9,7 @@ import ErrorContext from '../Context/errorContext';
 import PostContext from '../Context/postContext';
 import ProfileContext from '../Context/profileContext';
 import NotificationContext from '../Context/notificationContext';
+import GuestContext from '../Context/guestContext';
 import Thread from './Thread';
 import Search from '../Reusable/Search';
 import Profile from './Profile';
@@ -31,6 +32,8 @@ function App() {
 	const profileValue = { profile, setProfile };
 	const [notifications, setNotifs] = useState(null);
 	const notifValue = { notifications, setNotifs };
+	const [isGuest, setIsGuest] = useState(false);
+	const guestValue = { isGuest, setIsGuest };
 
 	return (
 		<Router>
@@ -121,43 +124,45 @@ function App() {
 						</div>
 					)}
 				</nav>
-				<SocketContext.Provider value={{ socket }}>
-					<UserContext.Provider value={value}>
-						<ErrorContext.Provider value={errorValue}>
-							<PostContext.Provider value={postValue}>
-								<QueryClientProvider client={queryClient}>
-									<ProfileContext.Provider value={profileValue}>
-										<NotificationContext.Provider value={notifValue}>
-											<Routes>
-												<Route path="/login" element={<Login />}></Route>
-												<Route path="/signup" element={<Signup />}></Route>
-												<Route path="/home" element={<Home />}></Route>
-												<Route path="/post/:id" element={<Thread />}></Route>
-												<Route
-													path="/user/:username"
-													element={<Profile />}
-												></Route>
-												<Route
-													path="/friendships"
-													element={<Friendships />}
-												></Route>
-												<Route
-													path="/user/update"
-													element={<UpdateProfile />}
-												></Route>
-												<Route path="/logout" element={<Logout />}></Route>
-												<Route
-													path="/notifications"
-													element={<Notifications />}
-												></Route>
-											</Routes>
-										</NotificationContext.Provider>
-									</ProfileContext.Provider>
-								</QueryClientProvider>
-							</PostContext.Provider>
-						</ErrorContext.Provider>
-					</UserContext.Provider>
-				</SocketContext.Provider>
+				<GuestContext.Provider value={guestValue}>
+					<SocketContext.Provider value={{ socket }}>
+						<UserContext.Provider value={value}>
+							<ErrorContext.Provider value={errorValue}>
+								<PostContext.Provider value={postValue}>
+									<QueryClientProvider client={queryClient}>
+										<ProfileContext.Provider value={profileValue}>
+											<NotificationContext.Provider value={notifValue}>
+												<Routes>
+													<Route path="/login" element={<Login />}></Route>
+													<Route path="/signup" element={<Signup />}></Route>
+													<Route path="/home" element={<Home />}></Route>
+													<Route path="/post/:id" element={<Thread />}></Route>
+													<Route
+														path="/user/:username"
+														element={<Profile />}
+													></Route>
+													<Route
+														path="/friendships"
+														element={<Friendships />}
+													></Route>
+													<Route
+														path="/user/update"
+														element={<UpdateProfile />}
+													></Route>
+													<Route path="/logout" element={<Logout />}></Route>
+													<Route
+														path="/notifications"
+														element={<Notifications />}
+													></Route>
+												</Routes>
+											</NotificationContext.Provider>
+										</ProfileContext.Provider>
+									</QueryClientProvider>
+								</PostContext.Provider>
+							</ErrorContext.Provider>
+						</UserContext.Provider>
+					</SocketContext.Provider>
+				</GuestContext.Provider>
 			</div>
 		</Router>
 	);

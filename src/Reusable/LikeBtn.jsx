@@ -13,6 +13,7 @@ export default function LikeButton({
 	socket,
 	likeCount,
 	setLikeCount,
+	isGuest,
 }) {
 	const { mutate: likePost } = useLikePost();
 	const { mutate: dislikePost } = useDislikePost();
@@ -77,6 +78,9 @@ export default function LikeButton({
 				style.button,
 			].join(' ')}
 			onClick={() => {
+				if (isGuest) {
+					return;
+				}
 				isLiked ? handleDislike() : handleLike();
 				setIsLiked((prev) => !prev);
 			}}

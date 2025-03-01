@@ -16,6 +16,7 @@ export default function Post({
 	setProfile,
 	profileClick,
 	socket,
+	isGuest,
 }) {
 	const [updateStatus, setUpdateStatus] = useState(false);
 	const navigate = useNavigate();
@@ -23,6 +24,9 @@ export default function Post({
 	const postData = location.state ? location.state.postData : null;
 	if (!data.author) {
 		data = postData;
+	}
+	if (isGuest) {
+		profileClick = null;
 	}
 
 	return (
@@ -69,12 +73,17 @@ export default function Post({
 							author={data.author.id}
 							dataType={'post'}
 							socket={socket}
+							isGuest={isGuest}
 						/>
 						{!hideComments && <span>{data.likeCount}</span>}
 
 						{!hideComments && (
 							<>
-								<CommentBtn postId={data.id} setPostVal={setPostVal} />
+								<CommentBtn
+									postId={data.id}
+									setPostVal={setPostVal}
+									isGuest={isGuest}
+								/>
 								<span>{data.commentCount}</span>
 
 								{data.author.id === currentUser.user.id && (

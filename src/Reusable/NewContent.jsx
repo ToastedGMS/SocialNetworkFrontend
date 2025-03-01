@@ -11,6 +11,7 @@ export default function NewContent({
 	dataType,
 	socket,
 	postAuthor,
+	isGuest,
 }) {
 	const [postContent, setPostContent] = useState('');
 	const { mutate: createPost } = useCreatePost();
@@ -107,12 +108,16 @@ export default function NewContent({
 						maxLength={1000}
 						minLength={1}
 						value={commentContent}
+						disabled={isGuest ? true : false}
 						onChange={(e) => setCommentContent(e.target.value)}
 					></textarea>
 					{errorMessage && <ErrorMessage error={errorMessage} />}
 					<button
 						className={style.postBtn}
 						onClick={() => {
+							if (isGuest) {
+								return;
+							}
 							if (!commentContent.trim()) {
 								setError("Can't post empty comment!");
 								return;
@@ -138,6 +143,7 @@ export default function NewContent({
 							maxLength={1000}
 							minLength={1}
 							value={postContent}
+							disabled={isGuest ? true : false}
 							onChange={(e) => setPostContent(e.target.value)}
 						></textarea>
 					</div>
@@ -146,6 +152,9 @@ export default function NewContent({
 						<button
 							className={style.postBtn}
 							onClick={async () => {
+								if (isGuest) {
+									return;
+								}
 								if (!postContent.trim()) {
 									setError("Can't publish empty post!");
 									return;
@@ -175,6 +184,7 @@ export default function NewContent({
 								className={style.file}
 								accept="image/png, image/gif, image/jpeg, image/jpg"
 								onChange={handleFileChange}
+								disabled={isGuest ? true : false}
 							/>
 						</label>
 						{fileInfo && (
