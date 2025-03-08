@@ -5,6 +5,7 @@ import { SocketContext } from '../Context/socketContext';
 import { useNavigate } from 'react-router-dom';
 import style from './styles/Notifications.module.css';
 import NotificationContext from '../Context/notificationContext';
+import PostContext from '../Context/postContext';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 export default function Notifications() {
@@ -12,6 +13,7 @@ export default function Notifications() {
 	const { socket } = useContext(SocketContext);
 	const navigate = useNavigate();
 	const { setNotifs } = useContext(NotificationContext);
+	const { setPostVal } = useContext(PostContext);
 
 	useEffect(() => {
 		if (!currentUser?.user?.id) {
@@ -77,11 +79,10 @@ export default function Notifications() {
 
 									const res = await data.json();
 
-									setTimeout(() => {
-										navigate(`/post/${notification.contentID}`, {
-											state: { postData: res },
-										});
-									}, 1000);
+									setPostVal(notification.contentID);
+									navigate(`/post/${notification.contentID}`, {
+										state: { postData: res },
+									});
 								}}
 							>
 								<p className={style.notif}>
@@ -109,6 +110,7 @@ export default function Notifications() {
 
 									const res = await data.json();
 
+									setPostVal(notification.contentID);
 									navigate(`/post/${notification.contentID}`, {
 										state: { postData: res },
 									});
