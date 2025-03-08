@@ -63,9 +63,9 @@ export default function UpdateProfile() {
 		}
 	};
 
-	useEffect(() => {
+	useEffect(async () => {
 		if (file) {
-			handleUpload;
+			await handleUpload();
 		}
 	}, [file]);
 
