@@ -49,11 +49,13 @@ export default function Signup() {
 			return;
 		}
 
-		mutation.mutate({
-			username: formData.username,
-			email: formData.email,
-			password: formData.password,
-		});
+		const trimmedData = {
+			username: formData.username.trim(),
+			email: formData.email.trim(),
+			password: formData.password.trim(),
+		};
+
+		mutation.mutate(trimmedData);
 	};
 
 	function handleChange(e) {
