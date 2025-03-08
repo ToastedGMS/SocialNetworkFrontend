@@ -70,10 +70,12 @@ export default function Login() {
 		e.preventDefault();
 		setError(null);
 
-		mutation.mutate({
-			identification: formData.identification,
-			password: formData.password,
-		});
+		const trimmedData = {
+			identification: formData.identification.trim(),
+			password: formData.password.trim(),
+		};
+
+		mutation.mutate(trimmedData);
 	};
 
 	function handleChange(e) {
