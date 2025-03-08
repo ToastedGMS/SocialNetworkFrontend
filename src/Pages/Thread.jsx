@@ -70,6 +70,9 @@ export default function Thread() {
 
 	useEffect(() => {
 		fetchPost();
+		return () => {
+			setPostData(null);
+		};
 	}, [postVal]);
 
 	return (
