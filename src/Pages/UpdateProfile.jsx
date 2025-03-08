@@ -101,7 +101,11 @@ export default function UpdateProfile() {
 					/>
 
 					<label htmlFor="profilePic">Profile Picture: </label>
-					<input type="file" onChange={handleFileChange} />
+					<input
+						type="file"
+						onChange={handleFileChange}
+						accept="image/png, image/gif, image/jpeg, image/jpg"
+					/>
 
 					{uploadResponse && (
 						<div>
