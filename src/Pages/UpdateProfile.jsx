@@ -117,9 +117,9 @@ export default function UpdateProfile() {
 						<UpdateProfileBtn
 							currentUser={currentUser}
 							content={{
-								username: usernameVal,
-								email: currentUser.user.email,
-								bio: bioVal,
+								username: usernameVal.trim(),
+								email: currentUser.user.email.trim(),
+								bio: bioVal.trim(),
 								profilePic: profilePicVal,
 							}}
 						/>
