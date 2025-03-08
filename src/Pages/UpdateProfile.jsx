@@ -31,34 +31,7 @@ export default function UpdateProfile() {
 	const [uploadResponse, setUploadResponse] = useState(null);
 
 	const handleFileChange = (e) => {
-		const handleFileChange = async (e) => {
-			const selectedFile = e.target.files[0];
-			setFile(selectedFile);
-
-			if (!selectedFile) return;
-
-			const formData = new FormData();
-			formData.append('file', selectedFile);
-
-			try {
-				const response = await fetch(`${serverUrl}/upload`, {
-					method: 'POST',
-					body: formData,
-				});
-
-				if (!response.ok) {
-					const errorText = await response.text();
-					console.error('Error response:', errorText);
-					return;
-				}
-
-				const result = await response.json();
-				setUploadResponse(result);
-				setProfilePicVal(result.fileUrl); // Update profile picture instantly
-			} catch (error) {
-				console.error('Error uploading file:', error);
-			}
-		};
+		setFile(e.target.files[0]);
 	};
 
 	useEffect(() => {
@@ -66,6 +39,35 @@ export default function UpdateProfile() {
 			setProfilePicVal(uploadResponse.fileUrl);
 		}
 	}, [uploadResponse]);
+
+	const handleUpload = async () => {
+		const formData = new FormData();
+		formData.append('file', file);
+
+		try {
+			const response = await fetch(`${serverUrl}/upload`, {
+				method: 'POST',
+				body: formData,
+			});
+
+			if (!response.ok) {
+				const errorText = await response.text();
+				console.error('Error response:', errorText);
+				return;
+			}
+
+			const result = await response.json();
+			setUploadResponse(result);
+		} catch (error) {
+			console.error('Error uploading file:', error);
+		}
+	};
+
+	useEffect(() => {
+		if (file) {
+			handleUpload;
+		}
+	}, [file]);
 
 	const isFormValid = usernameVal.trim() !== '';
 
@@ -124,9 +126,9 @@ export default function UpdateProfile() {
 						<UpdateProfileBtn
 							currentUser={currentUser}
 							content={{
-								username: usernameVal.trim(),
-								email: currentUser.user.email.trim(),
-								bio: bioVal.trim(),
+								username: usernameVal,
+								email: currentUser.user.email,
+								bio: bioVal,
 								profilePic: profilePicVal,
 							}}
 						/>
