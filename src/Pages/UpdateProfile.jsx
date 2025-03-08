@@ -63,10 +63,13 @@ export default function UpdateProfile() {
 		}
 	};
 
-	useEffect(async () => {
-		if (file) {
-			await handleUpload();
-		}
+	useEffect(() => {
+		const uploadFile = async () => {
+			if (file) {
+				await handleUpload();
+			}
+		};
+		uploadFile();
 	}, [file]);
 
 	const isFormValid = usernameVal.trim() !== '';
